@@ -1,0 +1,3768 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.283">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="김보람">
+<meta name="dcterms.date" content="2023-05-09">
+
+<title>AS - 07. 변수선택 실습</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">AS</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">07. 변수선택 실습</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">Applied statistics</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>김보람 </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 9, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<blockquote class="blockquote">
+<p>해당 자료는 전북대학교 이영미 교수님 2023응용통계학 자료임</p>
+</blockquote>
+<section id="변수선택" class="level1">
+<h1>변수선택</h1>
+<div id="6b717319-54b0-47ab-b509-c9aecd17f0f5" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> <span class="at">x1 =</span> <span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">1</span>,<span class="dv">11</span>,<span class="dv">11</span>,<span class="dv">7</span>,<span class="dv">11</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">21</span>,<span class="dv">1</span>,<span class="dv">11</span>,<span class="dv">10</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a> <span class="at">x2 =</span> <span class="fu">c</span>(<span class="dv">26</span>,<span class="dv">29</span>,<span class="dv">56</span>,<span class="dv">31</span>,<span class="dv">52</span>,<span class="dv">55</span>,<span class="dv">71</span>,<span class="dv">31</span>,<span class="dv">54</span>,<span class="dv">47</span>,<span class="dv">40</span>,<span class="dv">66</span>,<span class="dv">68</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a> <span class="at">x3 =</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">15</span>,<span class="dv">8</span>,<span class="dv">8</span>,<span class="dv">6</span>,<span class="dv">9</span>,<span class="dv">17</span>,<span class="dv">22</span>,<span class="dv">18</span>,<span class="dv">4</span>,<span class="dv">23</span>,<span class="dv">9</span>,<span class="dv">8</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a> <span class="at">x4 =</span> <span class="fu">c</span>(<span class="dv">60</span>,<span class="dv">52</span>,<span class="dv">20</span>,<span class="dv">47</span>,<span class="dv">33</span>,<span class="dv">22</span>,<span class="dv">6</span>,<span class="dv">44</span>,<span class="dv">22</span>,<span class="dv">26</span>,<span class="dv">34</span>,<span class="dv">12</span>,<span class="dv">12</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a> <span class="at">y =</span> <span class="fu">c</span>(<span class="fl">78.5</span>,<span class="fl">74.3</span>,<span class="fl">104.3</span>,<span class="fl">87.6</span>,<span class="fl">95.9</span>,<span class="fl">109.2</span>,<span class="fl">102.7</span>,<span class="fl">72.5</span>,<span class="fl">93.1</span>,<span class="fl">115.9</span>,<span class="fl">83.8</span>,<span class="fl">113.3</span>,<span class="fl">109.4</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a8fa05cc-2f72-42b5-8dfa-ece155193060" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(dt, <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A matrix: 5 × 5 of type dbl</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">x1</th>
+<th data-quarto-table-cell-role="th" scope="col">x2</th>
+<th data-quarto-table-cell-role="th" scope="col">x3</th>
+<th data-quarto-table-cell-role="th" scope="col">x4</th>
+<th data-quarto-table-cell-role="th" scope="col">y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x1</td>
+<td>1.0000000</td>
+<td>0.2285795</td>
+<td>-0.8241338</td>
+<td>-0.2454451</td>
+<td>0.7307175</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x2</td>
+<td>0.2285795</td>
+<td>1.0000000</td>
+<td>-0.1392424</td>
+<td>-0.9729550</td>
+<td>0.8162526</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x3</td>
+<td>-0.8241338</td>
+<td>-0.1392424</td>
+<td>1.0000000</td>
+<td>0.0295370</td>
+<td>-0.5346707</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x4</td>
+<td>-0.2454451</td>
+<td>-0.9729550</td>
+<td>0.0295370</td>
+<td>1.0000000</td>
+<td>-0.8213050</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">y</td>
+<td>0.7307175</td>
+<td>0.8162526</td>
+<td>-0.5346707</td>
+<td>-0.8213050</td>
+<td>1.0000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="07. 변수선택 실습_files/figure-html/cell-3-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<ul>
+<li>Full Model : <span class="math inline">\(𝑦 = 𝛽_0 + 𝛽_1𝑥_1 + 𝛽_2𝑥_2 + 𝛽_3𝑥_3 + 𝛽_4𝑥_4 + \epsilon\)</span></li>
+</ul>
+<div id="563a2da7-4faa-49b9-b884-e203ae1fa260" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>., dt) <span class="do">##FM</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = y ~ ., data = dt)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.1750 -1.6709  0.2508  1.3783  3.9254 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)  62.4054    70.0710   0.891   0.3991  
+x1            1.5511     0.7448   2.083   0.0708 .
+x2            0.5102     0.7238   0.705   0.5009  
+x3            0.1019     0.7547   0.135   0.8959  
+x4           -0.1441     0.7091  -0.203   0.8441  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.446 on 8 degrees of freedom
+Multiple R-squared:  0.9824,    Adjusted R-squared:  0.9736 
+F-statistic: 111.5 on 4 and 8 DF,  p-value: 4.756e-07</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>모형은 유의하게 나오고 R^2도 값이 크게나오는데, 회귀계수는 하나도 유의한게 없다? 다중공산성 때문에</p>
+</blockquote>
+<section id="후진제거법" class="level2">
+<h2 class="anchored" data-anchor-id="후진제거법">후진제거법</h2>
+<div id="a63a1984-823c-4a8b-85af-85d68aa9dd03" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = y ~ ., data = dt)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.1750 -1.6709  0.2508  1.3783  3.9254 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)  62.4054    70.0710   0.891   0.3991  
+x1            1.5511     0.7448   2.083   0.0708 .
+x2            0.5102     0.7238   0.705   0.5009  
+x3            0.1019     0.7547   0.135   0.8959  
+x4           -0.1441     0.7091  -0.203   0.8441  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.446 on 8 degrees of freedom
+Multiple R-squared:  0.9824,    Adjusted R-squared:  0.9736 
+F-statistic: 111.5 on 4 and 8 DF,  p-value: 4.756e-07</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>부분 F통계량, F통계량 = t^2 (t검정)</p>
+<p><span class="math inline">\(H_0:\beta_1= 0\)</span></p>
+<p>위의 <code>t value</code> 제곱하면 부분 F통계량이 됨</p>
+<p>t-value의 절대값이 가장 작은 값을 찾아주면 됨 -&gt; x3</p>
+</blockquote>
+<div id="0a242fc6-c0a7-4c26-bbef-b6c0af5d1b7a" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(m, <span class="at">test =</span> <span class="st">"F"</span>) <span class="co">#x3 제거</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># m에서 F통계량 사요하여 제거한것 확인</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A anova: 5 × 6</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">Df</th>
+<th data-quarto-table-cell-role="th" scope="col">Sum of Sq</th>
+<th data-quarto-table-cell-role="th" scope="col">RSS</th>
+<th data-quarto-table-cell-role="th" scope="col">AIC</th>
+<th data-quarto-table-cell-role="th" scope="col">F value</th>
+<th data-quarto-table-cell-role="th" scope="col">Pr(&gt;F)</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">&lt;none&gt;</td>
+<td>NA</td>
+<td>NA</td>
+<td>47.86364</td>
+<td>26.94429</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x1</td>
+<td>1</td>
+<td>25.9509114</td>
+<td>73.81455</td>
+<td>30.57588</td>
+<td>4.33747400</td>
+<td>0.07082169</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x2</td>
+<td>1</td>
+<td>2.9724782</td>
+<td>50.83612</td>
+<td>25.72755</td>
+<td>0.49682444</td>
+<td>0.50090110</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x3</td>
+<td>1</td>
+<td>0.1090900</td>
+<td>47.97273</td>
+<td>24.97388</td>
+<td>0.01823347</td>
+<td>0.89592269</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x4</td>
+<td>1</td>
+<td>0.2469747</td>
+<td>48.11061</td>
+<td>25.01120</td>
+<td>0.04127972</td>
+<td>0.84407147</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><code>RSS</code>: SSE</p>
+<p><code>F value</code> : <span class="math inline">\(F=\dfrac{SSE_{RM}-SSE_{FM}}{SSE_{FM}/(n-p-1)}\)</span> F값이 작을수록 유의하지 않다. 클수록 유의하다.</p>
+<p>3번째값이 가장 작은 값을 갖다. 유의확률이 제일 크니까 변수가 제거된다.</p>
+</blockquote>
+<div id="240c5e0c-5a48-4c98-b5d9-3909fca4b7f2" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">update</span>(m, <span class="sc">~</span> . <span class="sc">-</span>x3)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1) <span class="co">#x4 제거</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = y ~ x1 + x2 + x4, data = dt)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.0919 -1.8016  0.2562  1.2818  3.8982 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  71.6483    14.1424   5.066 0.000675 ***
+x1            1.4519     0.1170  12.410 5.78e-07 ***
+x2            0.4161     0.1856   2.242 0.051687 .  
+x4           -0.2365     0.1733  -1.365 0.205395    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.309 on 9 degrees of freedom
+Multiple R-squared:  0.9823,    Adjusted R-squared:  0.9764 
+F-statistic: 166.8 on 3 and 9 DF,  p-value: 3.323e-08</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><span class="math inline">\(lm(y\)</span>~<span class="math inline">\(x_1+x_2+x_4, dt)\)</span> 라고 표현해도 된다.</p>
+<p>x1이 유의해졌다. (x3과 다중공산성이 심했었다)</p>
+</blockquote>
+<div id="1fdf6ec8-3554-46fc-a0ea-856575643f67" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(m1, <span class="at">test =</span> <span class="st">"F"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A anova: 4 × 6</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">Df</th>
+<th data-quarto-table-cell-role="th" scope="col">Sum of Sq</th>
+<th data-quarto-table-cell-role="th" scope="col">RSS</th>
+<th data-quarto-table-cell-role="th" scope="col">AIC</th>
+<th data-quarto-table-cell-role="th" scope="col">F value</th>
+<th data-quarto-table-cell-role="th" scope="col">Pr(&gt;F)</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">&lt;none&gt;</td>
+<td>NA</td>
+<td>NA</td>
+<td>47.97273</td>
+<td>24.97388</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x1</td>
+<td>1</td>
+<td>820.907402</td>
+<td>868.88013</td>
+<td>60.62933</td>
+<td>154.007635</td>
+<td>5.780764e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x2</td>
+<td>1</td>
+<td>26.789383</td>
+<td>74.76211</td>
+<td>28.74170</td>
+<td>5.025865</td>
+<td>5.168735e-02</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x4</td>
+<td>1</td>
+<td>9.931754</td>
+<td>57.90448</td>
+<td>25.41999</td>
+<td>1.863262</td>
+<td>2.053954e-01</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Fvalue의 x4가 가장 작으므로 제거하자. 유의하지 않다.</p>
+</blockquote>
+<div id="fb1742a8-9c1e-4339-a764-9f65fca5b2b8" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">update</span>(m1, <span class="sc">~</span> . <span class="sc">-</span>x4)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = y ~ x1 + x2, data = dt)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-2.893 -1.574 -1.302  1.363  4.048 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 52.57735    2.28617   23.00 5.46e-10 ***
+x1           1.46831    0.12130   12.11 2.69e-07 ***
+x2           0.66225    0.04585   14.44 5.03e-08 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.406 on 10 degrees of freedom
+Multiple R-squared:  0.9787,    Adjusted R-squared:  0.9744 
+F-statistic: 229.5 on 2 and 10 DF,  p-value: 4.407e-09</code></pre>
+</div>
+</div>
+<div id="994ce7f3-e13b-495d-9da0-da3c38ce3afa" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(m2, <span class="at">test =</span> <span class="st">"F"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A anova: 3 × 6</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">Df</th>
+<th data-quarto-table-cell-role="th" scope="col">Sum of Sq</th>
+<th data-quarto-table-cell-role="th" scope="col">RSS</th>
+<th data-quarto-table-cell-role="th" scope="col">AIC</th>
+<th data-quarto-table-cell-role="th" scope="col">F value</th>
+<th data-quarto-table-cell-role="th" scope="col">Pr(&gt;F)</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">&lt;none&gt;</td>
+<td>NA</td>
+<td>NA</td>
+<td>57.90448</td>
+<td>25.41999</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x1</td>
+<td>1</td>
+<td>848.4319</td>
+<td>906.33634</td>
+<td>59.17799</td>
+<td>146.5227</td>
+<td>2.692212e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x2</td>
+<td>1</td>
+<td>1207.7823</td>
+<td>1265.68675</td>
+<td>63.51947</td>
+<td>208.5818</td>
+<td>5.028960e-08</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><code>F value</code>가 작은 x1을 제거할까? 하고 보니까 통계적으로 유의하므로 제거하지 않는다.</p>
+</blockquote>
+</section>
+<section id="전진선택법" class="level2">
+<h2 class="anchored" data-anchor-id="전진선택법">전진선택법</h2>
+<ul>
+<li>Start model : <span class="math inline">\(𝑦 = 𝛽_0 + \epsilon\)</span></li>
+</ul>
+<div id="0990d114-b671-460b-a76a-328793d4dc4e" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="eca85e12-7703-43fb-a19d-49c9addda259" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add1</span>(m0,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a> <span class="at">scope =</span> y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3<span class="sc">+</span> x4,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a> <span class="at">test =</span> <span class="st">"F"</span>) <span class="do">## x4추가</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A anova: 5 × 6</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">Df</th>
+<th data-quarto-table-cell-role="th" scope="col">Sum of Sq</th>
+<th data-quarto-table-cell-role="th" scope="col">RSS</th>
+<th data-quarto-table-cell-role="th" scope="col">AIC</th>
+<th data-quarto-table-cell-role="th" scope="col">F value</th>
+<th data-quarto-table-cell-role="th" scope="col">Pr(&gt;F)</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">&lt;none&gt;</td>
+<td>NA</td>
+<td>NA</td>
+<td>2715.7631</td>
+<td>71.44443</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x1</td>
+<td>1</td>
+<td>1450.0763</td>
+<td>1265.6867</td>
+<td>63.51947</td>
+<td>12.602518</td>
+<td>0.0045520446</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x2</td>
+<td>1</td>
+<td>1809.4267</td>
+<td>906.3363</td>
+<td>59.17799</td>
+<td>21.960605</td>
+<td>0.0006648249</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x3</td>
+<td>1</td>
+<td>776.3626</td>
+<td>1939.4005</td>
+<td>69.06740</td>
+<td>4.403417</td>
+<td>0.0597623242</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x4</td>
+<td>1</td>
+<td>1831.8962</td>
+<td>883.8669</td>
+<td>58.85164</td>
+<td>22.798520</td>
+<td>0.0005762318</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>F값이 크면 좋음. x4가 좋으니까 보면 유의하므로 추가하자.</p>
+</blockquote>
+<div id="f22383d8-4a74-435e-9289-a6b53c658a12" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">update</span>(m0, <span class="sc">~</span> . <span class="sc">+</span>x4)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = y ~ x4, data = dt)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-12.589  -8.228   1.495   4.726  17.524 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 117.5679     5.2622  22.342 1.62e-10 ***
+x4           -0.7382     0.1546  -4.775 0.000576 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 8.964 on 11 degrees of freedom
+Multiple R-squared:  0.6745,    Adjusted R-squared:  0.645 
+F-statistic:  22.8 on 1 and 11 DF,  p-value: 0.0005762</code></pre>
+</div>
+</div>
+<div id="66f8922a-9a57-43ff-b701-9eef56700da5" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add1</span>(m1,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a> <span class="at">scope =</span> y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3<span class="sc">+</span> x4,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a> <span class="at">test =</span> <span class="st">"F"</span>) <span class="do">## x1추가</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A anova: 4 × 6</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">Df</th>
+<th data-quarto-table-cell-role="th" scope="col">Sum of Sq</th>
+<th data-quarto-table-cell-role="th" scope="col">RSS</th>
+<th data-quarto-table-cell-role="th" scope="col">AIC</th>
+<th data-quarto-table-cell-role="th" scope="col">F value</th>
+<th data-quarto-table-cell-role="th" scope="col">Pr(&gt;F)</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">&lt;none&gt;</td>
+<td>NA</td>
+<td>NA</td>
+<td>883.86692</td>
+<td>58.85164</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x1</td>
+<td>1</td>
+<td>809.10480</td>
+<td>74.76211</td>
+<td>28.74170</td>
+<td>108.2239093</td>
+<td>1.105281e-06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x2</td>
+<td>1</td>
+<td>14.98679</td>
+<td>868.88013</td>
+<td>60.62933</td>
+<td>0.1724839</td>
+<td>6.866842e-01</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x3</td>
+<td>1</td>
+<td>708.12891</td>
+<td>175.73800</td>
+<td>39.85258</td>
+<td>40.2945802</td>
+<td>8.375467e-05</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>x1의 F갑싱 제일 크고 유의하므로 추가</p>
+</blockquote>
+<div id="936bf9be-01f0-4f55-875b-f30884588162" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">update</span>(m1, <span class="sc">~</span> . <span class="sc">+</span>x1)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = y ~ x4 + x1, data = dt)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-5.0234 -1.4737  0.1371  1.7305  3.7701 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 103.09738    2.12398   48.54 3.32e-13 ***
+x4           -0.61395    0.04864  -12.62 1.81e-07 ***
+x1            1.43996    0.13842   10.40 1.11e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.734 on 10 degrees of freedom
+Multiple R-squared:  0.9725,    Adjusted R-squared:  0.967 
+F-statistic: 176.6 on 2 and 10 DF,  p-value: 1.581e-08</code></pre>
+</div>
+</div>
+<div id="b967813f-e308-45c8-9162-4c3d828982b1" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add1</span>(m2,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a> <span class="at">scope =</span> y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3<span class="sc">+</span> x4,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a> <span class="at">test =</span> <span class="st">"F"</span>) <span class="do">## stop</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A anova: 3 × 6</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">Df</th>
+<th data-quarto-table-cell-role="th" scope="col">Sum of Sq</th>
+<th data-quarto-table-cell-role="th" scope="col">RSS</th>
+<th data-quarto-table-cell-role="th" scope="col">AIC</th>
+<th data-quarto-table-cell-role="th" scope="col">F value</th>
+<th data-quarto-table-cell-role="th" scope="col">Pr(&gt;F)</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">&lt;none&gt;</td>
+<td>NA</td>
+<td>NA</td>
+<td>74.76211</td>
+<td>28.74170</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x2</td>
+<td>1</td>
+<td>26.78938</td>
+<td>47.97273</td>
+<td>24.97388</td>
+<td>5.025865</td>
+<td>0.05168735</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x3</td>
+<td>1</td>
+<td>23.92599</td>
+<td>50.83612</td>
+<td>25.72755</td>
+<td>4.235846</td>
+<td>0.06969226</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>x2의 F값이 더 크지만, pr값이 애매해. 유의수준 a=0.05면 유의하지 않다. 모형에 포함될 수 없으므로 멈춘다.</p>
+<p>최종 모형은 x1과 x4를 선택한 모형</p>
+</blockquote>
+</section>
+<section id="단계적선택법" class="level2">
+<h2 class="anchored" data-anchor-id="단계적선택법">단계적선택법</h2>
+<div id="b701b973-96fa-477e-bb85-cdc4306537c9" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> dt)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 절편먼저 시작</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="b4e9bbbd-9c5e-41c8-8289-9edf523c3547" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add1</span>(m0,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a> <span class="at">scope =</span> y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3<span class="sc">+</span> x4,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a> <span class="at">test =</span> <span class="st">"F"</span>) <span class="do">## x4추가</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A anova: 5 × 6</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">Df</th>
+<th data-quarto-table-cell-role="th" scope="col">Sum of Sq</th>
+<th data-quarto-table-cell-role="th" scope="col">RSS</th>
+<th data-quarto-table-cell-role="th" scope="col">AIC</th>
+<th data-quarto-table-cell-role="th" scope="col">F value</th>
+<th data-quarto-table-cell-role="th" scope="col">Pr(&gt;F)</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">&lt;none&gt;</td>
+<td>NA</td>
+<td>NA</td>
+<td>2715.7631</td>
+<td>71.44443</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x1</td>
+<td>1</td>
+<td>1450.0763</td>
+<td>1265.6867</td>
+<td>63.51947</td>
+<td>12.602518</td>
+<td>0.0045520446</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x2</td>
+<td>1</td>
+<td>1809.4267</td>
+<td>906.3363</td>
+<td>59.17799</td>
+<td>21.960605</td>
+<td>0.0006648249</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x3</td>
+<td>1</td>
+<td>776.3626</td>
+<td>1939.4005</td>
+<td>69.06740</td>
+<td>4.403417</td>
+<td>0.0597623242</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x4</td>
+<td>1</td>
+<td>1831.8962</td>
+<td>883.8669</td>
+<td>58.85164</td>
+<td>22.798520</td>
+<td>0.0005762318</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="0dbe64cf-3a47-4a41-a367-5e19d75cadbb" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">update</span>(m0, <span class="sc">~</span> . <span class="sc">+</span>x4)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = y ~ x4, data = dt)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-12.589  -8.228   1.495   4.726  17.524 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 117.5679     5.2622  22.342 1.62e-10 ***
+x4           -0.7382     0.1546  -4.775 0.000576 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 8.964 on 11 degrees of freedom
+Multiple R-squared:  0.6745,    Adjusted R-squared:  0.645 
+F-statistic:  22.8 on 1 and 11 DF,  p-value: 0.0005762</code></pre>
+</div>
+</div>
+<div id="49242776-c41d-4dda-b553-d04fc8c5204d" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add1</span>(m1,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a> <span class="at">scope =</span> y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3<span class="sc">+</span> x4,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a> <span class="at">test =</span> <span class="st">"F"</span>) <span class="do">## x1추가</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A anova: 4 × 6</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">Df</th>
+<th data-quarto-table-cell-role="th" scope="col">Sum of Sq</th>
+<th data-quarto-table-cell-role="th" scope="col">RSS</th>
+<th data-quarto-table-cell-role="th" scope="col">AIC</th>
+<th data-quarto-table-cell-role="th" scope="col">F value</th>
+<th data-quarto-table-cell-role="th" scope="col">Pr(&gt;F)</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">&lt;none&gt;</td>
+<td>NA</td>
+<td>NA</td>
+<td>883.86692</td>
+<td>58.85164</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x1</td>
+<td>1</td>
+<td>809.10480</td>
+<td>74.76211</td>
+<td>28.74170</td>
+<td>108.2239093</td>
+<td>1.105281e-06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x2</td>
+<td>1</td>
+<td>14.98679</td>
+<td>868.88013</td>
+<td>60.62933</td>
+<td>0.1724839</td>
+<td>6.866842e-01</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x3</td>
+<td>1</td>
+<td>708.12891</td>
+<td>175.73800</td>
+<td>39.85258</td>
+<td>40.2945802</td>
+<td>8.375467e-05</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="6f85d1ed-58d8-40c3-94d4-2af53dca33f9" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">update</span>(m1, <span class="sc">~</span> . <span class="sc">+</span>x1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="5fd71c79-93cf-4d01-afcf-265d84695605" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(m2, <span class="at">test =</span> <span class="st">"F"</span>) <span class="co">#제거 없음</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A anova: 3 × 6</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">Df</th>
+<th data-quarto-table-cell-role="th" scope="col">Sum of Sq</th>
+<th data-quarto-table-cell-role="th" scope="col">RSS</th>
+<th data-quarto-table-cell-role="th" scope="col">AIC</th>
+<th data-quarto-table-cell-role="th" scope="col">F value</th>
+<th data-quarto-table-cell-role="th" scope="col">Pr(&gt;F)</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">&lt;none&gt;</td>
+<td>NA</td>
+<td>NA</td>
+<td>74.76211</td>
+<td>28.74170</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x4</td>
+<td>1</td>
+<td>1190.9246</td>
+<td>1265.68675</td>
+<td>63.51947</td>
+<td>159.2952</td>
+<td>1.814890e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x1</td>
+<td>1</td>
+<td>809.1048</td>
+<td>883.86692</td>
+<td>58.85164</td>
+<td>108.2239</td>
+<td>1.105281e-06</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>x1,x4 유의하니까 그대로 가져가자</p>
+</blockquote>
+<div id="3303f489-ffa1-4c8e-8d3c-2143cdefb058" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add1</span>(m2,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a> <span class="at">scope =</span> y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3<span class="sc">+</span> x4,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a> <span class="at">test =</span> <span class="st">"F"</span>) <span class="do">## x2추가</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A anova: 3 × 6</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">Df</th>
+<th data-quarto-table-cell-role="th" scope="col">Sum of Sq</th>
+<th data-quarto-table-cell-role="th" scope="col">RSS</th>
+<th data-quarto-table-cell-role="th" scope="col">AIC</th>
+<th data-quarto-table-cell-role="th" scope="col">F value</th>
+<th data-quarto-table-cell-role="th" scope="col">Pr(&gt;F)</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">&lt;none&gt;</td>
+<td>NA</td>
+<td>NA</td>
+<td>74.76211</td>
+<td>28.74170</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x2</td>
+<td>1</td>
+<td>26.78938</td>
+<td>47.97273</td>
+<td>24.97388</td>
+<td>5.025865</td>
+<td>0.05168735</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x3</td>
+<td>1</td>
+<td>23.92599</td>
+<td>50.83612</td>
+<td>25.72755</td>
+<td>4.235846</td>
+<td>0.06969226</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>유의수준 a=0.1로 보자</p>
+</blockquote>
+<div id="71e37e2c-a2d0-46e8-9b87-04f3f9ff8b4d" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">update</span>(m2, <span class="sc">~</span> . <span class="sc">+</span>x2)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = y ~ x4 + x1 + x2, data = dt)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.0919 -1.8016  0.2562  1.2818  3.8982 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  71.6483    14.1424   5.066 0.000675 ***
+x4           -0.2365     0.1733  -1.365 0.205395    
+x1            1.4519     0.1170  12.410 5.78e-07 ***
+x2            0.4161     0.1856   2.242 0.051687 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.309 on 9 degrees of freedom
+Multiple R-squared:  0.9823,    Adjusted R-squared:  0.9764 
+F-statistic: 166.8 on 3 and 9 DF,  p-value: 3.323e-08</code></pre>
+</div>
+</div>
+<div id="4d6f36d4-c710-46df-b83c-9b286a082157" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">drop1</span>(m3, <span class="at">test=</span><span class="st">"F"</span>) <span class="co">#x4 제거</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A anova: 4 × 6</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">Df</th>
+<th data-quarto-table-cell-role="th" scope="col">Sum of Sq</th>
+<th data-quarto-table-cell-role="th" scope="col">RSS</th>
+<th data-quarto-table-cell-role="th" scope="col">AIC</th>
+<th data-quarto-table-cell-role="th" scope="col">F value</th>
+<th data-quarto-table-cell-role="th" scope="col">Pr(&gt;F)</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">&lt;none&gt;</td>
+<td>NA</td>
+<td>NA</td>
+<td>47.97273</td>
+<td>24.97388</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x4</td>
+<td>1</td>
+<td>9.931754</td>
+<td>57.90448</td>
+<td>25.41999</td>
+<td>1.863262</td>
+<td>2.053954e-01</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x1</td>
+<td>1</td>
+<td>820.907402</td>
+<td>868.88013</td>
+<td>60.62933</td>
+<td>154.007635</td>
+<td>5.780764e-07</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x2</td>
+<td>1</td>
+<td>26.789383</td>
+<td>74.76211</td>
+<td>28.74170</td>
+<td>5.025865</td>
+<td>5.168735e-02</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>x2를 추가했기 때문에 x2는 보지 않고 x1과 x4만 보면 된다</p>
+</blockquote>
+<div id="f5b12b82-d64a-409b-80d6-d44653d32fa1" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">&lt;-</span> <span class="fu">update</span>(m3, <span class="sc">~</span> . <span class="sc">-</span>x4)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = y ~ x1 + x2, data = dt)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-2.893 -1.574 -1.302  1.363  4.048 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 52.57735    2.28617   23.00 5.46e-10 ***
+x1           1.46831    0.12130   12.11 2.69e-07 ***
+x2           0.66225    0.04585   14.44 5.03e-08 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.406 on 10 degrees of freedom
+Multiple R-squared:  0.9787,    Adjusted R-squared:  0.9744 
+F-statistic: 229.5 on 2 and 10 DF,  p-value: 4.407e-09</code></pre>
+</div>
+</div>
+<div id="ca651ed8-3572-478f-add3-766dc59d496b" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add1</span>(m4,</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a> <span class="at">scope =</span> y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3<span class="sc">+</span> x4,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a> <span class="at">test =</span> <span class="st">"F"</span>) <span class="co">#stop</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A anova: 3 × 6</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">Df</th>
+<th data-quarto-table-cell-role="th" scope="col">Sum of Sq</th>
+<th data-quarto-table-cell-role="th" scope="col">RSS</th>
+<th data-quarto-table-cell-role="th" scope="col">AIC</th>
+<th data-quarto-table-cell-role="th" scope="col">F value</th>
+<th data-quarto-table-cell-role="th" scope="col">Pr(&gt;F)</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">&lt;none&gt;</td>
+<td>NA</td>
+<td>NA</td>
+<td>57.90448</td>
+<td>25.41999</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">x3</td>
+<td>1</td>
+<td>9.793869</td>
+<td>48.11061</td>
+<td>25.01120</td>
+<td>1.832128</td>
+<td>0.2088895</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">x4</td>
+<td>1</td>
+<td>9.931754</td>
+<td>47.97273</td>
+<td>24.97388</td>
+<td>1.863262</td>
+<td>0.2053954</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="aic를-이용한-변수-선택법" class="level2">
+<h2 class="anchored" data-anchor-id="aic를-이용한-변수-선택법">AIC를 이용한 변수 선택법</h2>
+<ul>
+<li>모델 선택시 AIC가 작은 모델을 선택</li>
+</ul>
+<section id="backward---aic" class="level3">
+<h3 class="anchored" data-anchor-id="backward---aic">Backward - AIC</h3>
+<ul>
+<li><p>후진제거법 AIC로 해보기</p></li>
+<li><p>step 함수: AIC가 기준임</p></li>
+</ul>
+<div id="ec8431f8-c807-4d2c-b6b7-1c680c4567b6" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>model_back <span class="ot">=</span> <span class="fu">step</span>(m, <span class="at">direction =</span> <span class="st">"backward"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_back)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Start:  AIC=26.94
+y ~ x1 + x2 + x3 + x4
+
+       Df Sum of Sq    RSS    AIC
+- x3    1    0.1091 47.973 24.974
+- x4    1    0.2470 48.111 25.011
+- x2    1    2.9725 50.836 25.728
+&lt;none&gt;              47.864 26.944
+- x1    1   25.9509 73.815 30.576
+
+Step:  AIC=24.97
+y ~ x1 + x2 + x4
+
+       Df Sum of Sq    RSS    AIC
+&lt;none&gt;               47.97 24.974
+- x4    1      9.93  57.90 25.420
+- x2    1     26.79  74.76 28.742
+- x1    1    820.91 868.88 60.629</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = y ~ x1 + x2 + x4, data = dt)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.0919 -1.8016  0.2562  1.2818  3.8982 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  71.6483    14.1424   5.066 0.000675 ***
+x1            1.4519     0.1170  12.410 5.78e-07 ***
+x2            0.4161     0.1856   2.242 0.051687 .  
+x4           -0.2365     0.1733  -1.365 0.205395    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.309 on 9 degrees of freedom
+Multiple R-squared:  0.9823,    Adjusted R-squared:  0.9764 
+F-statistic: 166.8 on 3 and 9 DF,  p-value: 3.323e-08</code></pre>
+</div>
+</div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>     Df Sum of Sq    RSS    AIC</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> x3    <span class="dv">1</span>    <span class="fl">0.1091</span> <span class="fl">47.973</span> <span class="fl">24.974</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> x4    <span class="dv">1</span>    <span class="fl">0.2470</span> <span class="fl">48.111</span> <span class="fl">25.011</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> x2    <span class="dv">1</span>    <span class="fl">2.9725</span> <span class="fl">50.836</span> <span class="fl">25.728</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span>none<span class="sc">&gt;</span>              <span class="fl">47.864</span> <span class="fl">26.944</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> x1    <span class="dv">1</span>   <span class="fl">25.9509</span> <span class="fl">73.815</span> <span class="fl">30.576</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>-x3을 뺐을때 aic.. -x4을 뺏을때 aic…</p>
+<ul>
+<li><p>AIC가 작으면 작을수록 좋다.그래서 x3빼자</p></li>
+<li><p>x2와 x4가 애매하긴 하지만,,</p></li>
+</ul>
+</section>
+<section id="forward---aic" class="level3">
+<h3 class="anchored" data-anchor-id="forward---aic">Forward - AIC</h3>
+<ul>
+<li>전진선택법</li>
+</ul>
+<div id="e4ce9a36-0f97-46cb-ada8-eeb18bdb5e41" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>model_forward <span class="ot">=</span> <span class="fu">step</span>(</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a> m0,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a> <span class="at">scope =</span> y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3<span class="sc">+</span> x4,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a> <span class="at">direction =</span> <span class="st">"forward"</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_forward)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Start:  AIC=71.44
+y ~ 1
+
+       Df Sum of Sq     RSS    AIC
++ x4    1   1831.90  883.87 58.852
++ x2    1   1809.43  906.34 59.178
++ x1    1   1450.08 1265.69 63.519
++ x3    1    776.36 1939.40 69.067
+&lt;none&gt;              2715.76 71.444
+
+Step:  AIC=58.85
+y ~ x4
+
+       Df Sum of Sq    RSS    AIC
++ x1    1    809.10  74.76 28.742
++ x3    1    708.13 175.74 39.853
+&lt;none&gt;              883.87 58.852
++ x2    1     14.99 868.88 60.629
+
+Step:  AIC=28.74
+y ~ x4 + x1
+
+       Df Sum of Sq    RSS    AIC
++ x2    1    26.789 47.973 24.974
++ x3    1    23.926 50.836 25.728
+&lt;none&gt;              74.762 28.742
+
+Step:  AIC=24.97
+y ~ x4 + x1 + x2
+
+       Df Sum of Sq    RSS    AIC
+&lt;none&gt;              47.973 24.974
++ x3    1   0.10909 47.864 26.944</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = y ~ x4 + x1 + x2, data = dt)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.0919 -1.8016  0.2562  1.2818  3.8982 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  71.6483    14.1424   5.066 0.000675 ***
+x4           -0.2365     0.1733  -1.365 0.205395    
+x1            1.4519     0.1170  12.410 5.78e-07 ***
+x2            0.4161     0.1856   2.242 0.051687 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.309 on 9 degrees of freedom
+Multiple R-squared:  0.9823,    Adjusted R-squared:  0.9764 
+F-statistic: 166.8 on 3 and 9 DF,  p-value: 3.323e-08</code></pre>
+</div>
+</div>
+</section>
+<section id="step---aic" class="level3">
+<h3 class="anchored" data-anchor-id="step---aic">Step - AIC</h3>
+<div id="3b6c77e6-f7bd-4841-bb63-5b33c0deecae" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>model_step <span class="ot">=</span> <span class="fu">step</span>(</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a> m0,</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a> <span class="at">scope =</span> y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3<span class="sc">+</span> x4,</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a> <span class="at">direction =</span> <span class="st">"both"</span>)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_step)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Start:  AIC=71.44
+y ~ 1
+
+       Df Sum of Sq     RSS    AIC
++ x4    1   1831.90  883.87 58.852
++ x2    1   1809.43  906.34 59.178
++ x1    1   1450.08 1265.69 63.519
++ x3    1    776.36 1939.40 69.067
+&lt;none&gt;              2715.76 71.444
+
+Step:  AIC=58.85
+y ~ x4
+
+       Df Sum of Sq     RSS    AIC
++ x1    1    809.10   74.76 28.742
++ x3    1    708.13  175.74 39.853
+&lt;none&gt;               883.87 58.852
++ x2    1     14.99  868.88 60.629
+- x4    1   1831.90 2715.76 71.444
+
+Step:  AIC=28.74
+y ~ x4 + x1
+
+       Df Sum of Sq     RSS    AIC
++ x2    1     26.79   47.97 24.974
++ x3    1     23.93   50.84 25.728
+&lt;none&gt;                74.76 28.742
+- x1    1    809.10  883.87 58.852
+- x4    1   1190.92 1265.69 63.519
+
+Step:  AIC=24.97
+y ~ x4 + x1 + x2
+
+       Df Sum of Sq    RSS    AIC
+&lt;none&gt;               47.97 24.974
+- x4    1      9.93  57.90 25.420
++ x3    1      0.11  47.86 26.944
+- x2    1     26.79  74.76 28.742
+- x1    1    820.91 868.88 60.629</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = y ~ x4 + x1 + x2, data = dt)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.0919 -1.8016  0.2562  1.2818  3.8982 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  71.6483    14.1424   5.066 0.000675 ***
+x4           -0.2365     0.1733  -1.365 0.205395    
+x1            1.4519     0.1170  12.410 5.78e-07 ***
+x2            0.4161     0.1856   2.242 0.051687 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.309 on 9 degrees of freedom
+Multiple R-squared:  0.9823,    Adjusted R-squared:  0.9764 
+F-statistic: 166.8 on 3 and 9 DF,  p-value: 3.323e-08</code></pre>
+</div>
+</div>
+<ul>
+<li>추가하는거랑 빼는거랑 동시에 진행</li>
+</ul>
+</section>
+</section>
+<section id="regsubsets" class="level2">
+<h2 class="anchored" data-anchor-id="regsubsets">regsubsets</h2>
+<div id="d93e8179-93fc-43d1-99e8-55b4a3180201" class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>m_full <span class="ot">&lt;-</span><span class="fu">lm</span>(y<span class="sc">~</span>.,dt)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m_full)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = y ~ ., data = dt)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.1750 -1.6709  0.2508  1.3783  3.9254 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)  62.4054    70.0710   0.891   0.3991  
+x1            1.5511     0.7448   2.083   0.0708 .
+x2            0.5102     0.7238   0.705   0.5009  
+x3            0.1019     0.7547   0.135   0.8959  
+x4           -0.1441     0.7091  -0.203   0.8441  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.446 on 8 degrees of freedom
+Multiple R-squared:  0.9824,    Adjusted R-squared:  0.9736 
+F-statistic: 111.5 on 4 and 8 DF,  p-value: 4.756e-07</code></pre>
+</div>
+</div>
+<section id="nbest1" class="level3">
+<h3 class="anchored" data-anchor-id="nbest1">nbest=1</h3>
+<div id="5396efa5-4ae3-44a7-99a8-521d2a128277" class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">regsubsets</span>(y<span class="sc">~</span>., <span class="at">data=</span>dt, <span class="at">nbest=</span><span class="dv">1</span>, <span class="at">nvmax=</span><span class="dv">9</span>, <span class="at">method=</span><span class="st">'exhaustive'</span>,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cda25286-bbab-4014-b89c-a8972235639d" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Subset selection object
+Call: regsubsets.formula(y ~ ., data = dt, nbest = 1, nvmax = 9, method = "exhaustive", 
+    )
+4 Variables  (and intercept)
+   Forced in Forced out
+x1     FALSE      FALSE
+x2     FALSE      FALSE
+x3     FALSE      FALSE
+x4     FALSE      FALSE
+1 subsets of each size up to 4
+Selection Algorithm: exhaustive
+         x1  x2  x3  x4 
+1  ( 1 ) " " " " " " "*"
+2  ( 1 ) "*" "*" " " " "
+3  ( 1 ) "*" "*" " " "*"
+4  ( 1 ) "*" "*" "*" "*"</code></pre>
+</div>
+</div>
+<ul>
+<li>설명변수 1개, 2개, 3개 , 4개썼을때 제일 좋은 모형을 불러와 :nbest=1</li>
+</ul>
+<div id="43757d10-bf23-4ba6-ae84-54edd72f5e5b" class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">summary</span>(fit), <span class="fu">round</span>(<span class="fu">cbind</span>(which,rss,rsq,adjr2,cp,bic),<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A matrix: 4 × 10 of type dbl</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">(Intercept)</th>
+<th data-quarto-table-cell-role="th" scope="col">x1</th>
+<th data-quarto-table-cell-role="th" scope="col">x2</th>
+<th data-quarto-table-cell-role="th" scope="col">x3</th>
+<th data-quarto-table-cell-role="th" scope="col">x4</th>
+<th data-quarto-table-cell-role="th" scope="col">rss</th>
+<th data-quarto-table-cell-role="th" scope="col">rsq</th>
+<th data-quarto-table-cell-role="th" scope="col">adjr2</th>
+<th data-quarto-table-cell-role="th" scope="col">cp</th>
+<th data-quarto-table-cell-role="th" scope="col">bic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>883.867</td>
+<td>0.675</td>
+<td>0.645</td>
+<td>138.731</td>
+<td>-9.463</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">2</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>57.904</td>
+<td>0.979</td>
+<td>0.974</td>
+<td>2.678</td>
+<td>-42.330</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">3</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>47.973</td>
+<td>0.982</td>
+<td>0.976</td>
+<td>3.018</td>
+<td>-42.211</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">4</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>47.864</td>
+<td>0.982</td>
+<td>0.974</td>
+<td>5.000</td>
+<td>-39.675</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="nbest2" class="level3">
+<h3 class="anchored" data-anchor-id="nbest2">nbest=2</h3>
+<div id="610fcc39-e05f-4ce7-b888-ef1b11073e78" class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">regsubsets</span>(y<span class="sc">~</span>., <span class="at">data=</span>dt, <span class="at">nbest=</span><span class="dv">2</span>, <span class="at">nvmax=</span><span class="dv">9</span>, <span class="at">method=</span><span class="st">'exhaustive'</span>,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="c1d43ea5-4667-4aa7-9f46-dc95a33f850c" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Subset selection object
+Call: regsubsets.formula(y ~ ., data = dt, nbest = 2, nvmax = 9, method = "exhaustive", 
+    )
+4 Variables  (and intercept)
+   Forced in Forced out
+x1     FALSE      FALSE
+x2     FALSE      FALSE
+x3     FALSE      FALSE
+x4     FALSE      FALSE
+2 subsets of each size up to 4
+Selection Algorithm: exhaustive
+         x1  x2  x3  x4 
+1  ( 1 ) " " " " " " "*"
+1  ( 2 ) " " "*" " " " "
+2  ( 1 ) "*" "*" " " " "
+2  ( 2 ) "*" " " " " "*"
+3  ( 1 ) "*" "*" " " "*"
+3  ( 2 ) "*" "*" "*" " "
+4  ( 1 ) "*" "*" "*" "*"</code></pre>
+</div>
+</div>
+<ul>
+<li>좋았던걸 2개씩 리턴</li>
+</ul>
+</section>
+<section id="nbest6" class="level3">
+<h3 class="anchored" data-anchor-id="nbest6">nbest=6</h3>
+<div id="57efccb4-d485-4a3b-adfa-f9cfe1b3ecca" class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">regsubsets</span>(y<span class="sc">~</span>., <span class="at">data=</span>dt, <span class="at">nbest=</span><span class="dv">6</span>, <span class="at">nvmax=</span><span class="dv">9</span>, <span class="at">method=</span><span class="st">'exhaustive'</span>,)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Subset selection object
+Call: regsubsets.formula(y ~ ., data = dt, nbest = 6, nvmax = 9, method = "exhaustive", 
+    )
+4 Variables  (and intercept)
+   Forced in Forced out
+x1     FALSE      FALSE
+x2     FALSE      FALSE
+x3     FALSE      FALSE
+x4     FALSE      FALSE
+6 subsets of each size up to 4
+Selection Algorithm: exhaustive
+         x1  x2  x3  x4 
+1  ( 1 ) " " " " " " "*"
+1  ( 2 ) " " "*" " " " "
+1  ( 3 ) "*" " " " " " "
+1  ( 4 ) " " " " "*" " "
+2  ( 1 ) "*" "*" " " " "
+2  ( 2 ) "*" " " " " "*"
+2  ( 3 ) " " " " "*" "*"
+2  ( 4 ) " " "*" "*" " "
+2  ( 5 ) " " "*" " " "*"
+2  ( 6 ) "*" " " "*" " "
+3  ( 1 ) "*" "*" " " "*"
+3  ( 2 ) "*" "*" "*" " "
+3  ( 3 ) "*" " " "*" "*"
+3  ( 4 ) " " "*" "*" "*"
+4  ( 1 ) "*" "*" "*" "*"</code></pre>
+</div>
+</div>
+<div id="16311109-aab4-4fad-9812-f8c58b908ecd" class="cell" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">summary</span>(fit), <span class="fu">round</span>(<span class="fu">cbind</span>(which,rss,rsq,adjr2,cp,bic),<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A matrix: 15 × 10 of type dbl</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">(Intercept)</th>
+<th data-quarto-table-cell-role="th" scope="col">x1</th>
+<th data-quarto-table-cell-role="th" scope="col">x2</th>
+<th data-quarto-table-cell-role="th" scope="col">x3</th>
+<th data-quarto-table-cell-role="th" scope="col">x4</th>
+<th data-quarto-table-cell-role="th" scope="col">rss</th>
+<th data-quarto-table-cell-role="th" scope="col">rsq</th>
+<th data-quarto-table-cell-role="th" scope="col">adjr2</th>
+<th data-quarto-table-cell-role="th" scope="col">cp</th>
+<th data-quarto-table-cell-role="th" scope="col">bic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>883.867</td>
+<td>0.675</td>
+<td>0.645</td>
+<td>138.731</td>
+<td>-9.463</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>906.336</td>
+<td>0.666</td>
+<td>0.636</td>
+<td>142.486</td>
+<td>-9.137</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1265.687</td>
+<td>0.534</td>
+<td>0.492</td>
+<td>202.549</td>
+<td>-4.795</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1939.400</td>
+<td>0.286</td>
+<td>0.221</td>
+<td>315.154</td>
+<td>0.753</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">2</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>57.904</td>
+<td>0.979</td>
+<td>0.974</td>
+<td>2.678</td>
+<td>-42.330</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">2</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>74.762</td>
+<td>0.972</td>
+<td>0.967</td>
+<td>5.496</td>
+<td>-39.008</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">2</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>175.738</td>
+<td>0.935</td>
+<td>0.922</td>
+<td>22.373</td>
+<td>-27.897</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">2</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>415.443</td>
+<td>0.847</td>
+<td>0.816</td>
+<td>62.438</td>
+<td>-16.712</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">2</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>868.880</td>
+<td>0.680</td>
+<td>0.616</td>
+<td>138.226</td>
+<td>-7.120</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">2</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1227.072</td>
+<td>0.548</td>
+<td>0.458</td>
+<td>198.095</td>
+<td>-2.633</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">3</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>47.973</td>
+<td>0.982</td>
+<td>0.976</td>
+<td>3.018</td>
+<td>-42.211</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">3</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>48.111</td>
+<td>0.982</td>
+<td>0.976</td>
+<td>3.041</td>
+<td>-42.173</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">3</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>50.836</td>
+<td>0.981</td>
+<td>0.975</td>
+<td>3.497</td>
+<td>-41.457</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">3</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>73.815</td>
+<td>0.973</td>
+<td>0.964</td>
+<td>7.337</td>
+<td>-36.609</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">4</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>47.864</td>
+<td>0.982</td>
+<td>0.974</td>
+<td>5.000</td>
+<td>-39.675</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="nvmax2" class="level3">
+<h3 class="anchored" data-anchor-id="nvmax2">nvmax=2</h3>
+<ul>
+<li>설명변수 최대 2개까지만</li>
+</ul>
+<div id="d15627c9-787c-4cc8-9c2f-850204c40754" class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">regsubsets</span>(y<span class="sc">~</span>., <span class="at">data=</span>dt, <span class="at">nbest=</span><span class="dv">6</span>, <span class="at">nvmax=</span><span class="dv">2</span>, <span class="at">method=</span><span class="st">'exhaustive'</span>,)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Subset selection object
+Call: regsubsets.formula(y ~ ., data = dt, nbest = 6, nvmax = 2, method = "exhaustive", 
+    )
+4 Variables  (and intercept)
+   Forced in Forced out
+x1     FALSE      FALSE
+x2     FALSE      FALSE
+x3     FALSE      FALSE
+x4     FALSE      FALSE
+6 subsets of each size up to 2
+Selection Algorithm: exhaustive
+         x1  x2  x3  x4 
+1  ( 1 ) " " " " " " "*"
+1  ( 2 ) " " "*" " " " "
+1  ( 3 ) "*" " " " " " "
+1  ( 4 ) " " " " "*" " "
+2  ( 1 ) "*" "*" " " " "
+2  ( 2 ) "*" " " " " "*"
+2  ( 3 ) " " " " "*" "*"
+2  ( 4 ) " " "*" "*" " "
+2  ( 5 ) " " "*" " " "*"
+2  ( 6 ) "*" " " "*" " "</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="자동차-연비-자료-분석" class="level1">
+<h1>자동차 연비 자료 분석</h1>
+<div id="4fc7adca-da5c-40cc-9157-895d9e79ca56" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(mtcars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   32 obs. of  11 variables:
+ $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+ $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...
+ $ disp: num  160 160 108 258 360 ...
+ $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
+ $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+ $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
+ $ qsec: num  16.5 17 18.6 19.4 17 ...
+ $ vs  : num  0 0 1 1 0 1 0 1 1 1 ...
+ $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
+ $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
+ $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</code></pre>
+</div>
+</div>
+<div id="edab0890-27fe-4bcf-8a53-20863def2110" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(mtcars),<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A matrix: 11 × 11 of type dbl</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">mpg</th>
+<th data-quarto-table-cell-role="th" scope="col">cyl</th>
+<th data-quarto-table-cell-role="th" scope="col">disp</th>
+<th data-quarto-table-cell-role="th" scope="col">hp</th>
+<th data-quarto-table-cell-role="th" scope="col">drat</th>
+<th data-quarto-table-cell-role="th" scope="col">wt</th>
+<th data-quarto-table-cell-role="th" scope="col">qsec</th>
+<th data-quarto-table-cell-role="th" scope="col">vs</th>
+<th data-quarto-table-cell-role="th" scope="col">am</th>
+<th data-quarto-table-cell-role="th" scope="col">gear</th>
+<th data-quarto-table-cell-role="th" scope="col">carb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">mpg</td>
+<td>1.00</td>
+<td>-0.85</td>
+<td>-0.85</td>
+<td>-0.78</td>
+<td>0.68</td>
+<td>-0.87</td>
+<td>0.42</td>
+<td>0.66</td>
+<td>0.60</td>
+<td>0.48</td>
+<td>-0.55</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">cyl</td>
+<td>-0.85</td>
+<td>1.00</td>
+<td>0.90</td>
+<td>0.83</td>
+<td>-0.70</td>
+<td>0.78</td>
+<td>-0.59</td>
+<td>-0.81</td>
+<td>-0.52</td>
+<td>-0.49</td>
+<td>0.53</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">disp</td>
+<td>-0.85</td>
+<td>0.90</td>
+<td>1.00</td>
+<td>0.79</td>
+<td>-0.71</td>
+<td>0.89</td>
+<td>-0.43</td>
+<td>-0.71</td>
+<td>-0.59</td>
+<td>-0.56</td>
+<td>0.39</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">hp</td>
+<td>-0.78</td>
+<td>0.83</td>
+<td>0.79</td>
+<td>1.00</td>
+<td>-0.45</td>
+<td>0.66</td>
+<td>-0.71</td>
+<td>-0.72</td>
+<td>-0.24</td>
+<td>-0.13</td>
+<td>0.75</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">drat</td>
+<td>0.68</td>
+<td>-0.70</td>
+<td>-0.71</td>
+<td>-0.45</td>
+<td>1.00</td>
+<td>-0.71</td>
+<td>0.09</td>
+<td>0.44</td>
+<td>0.71</td>
+<td>0.70</td>
+<td>-0.09</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">wt</td>
+<td>-0.87</td>
+<td>0.78</td>
+<td>0.89</td>
+<td>0.66</td>
+<td>-0.71</td>
+<td>1.00</td>
+<td>-0.17</td>
+<td>-0.55</td>
+<td>-0.69</td>
+<td>-0.58</td>
+<td>0.43</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">qsec</td>
+<td>0.42</td>
+<td>-0.59</td>
+<td>-0.43</td>
+<td>-0.71</td>
+<td>0.09</td>
+<td>-0.17</td>
+<td>1.00</td>
+<td>0.74</td>
+<td>-0.23</td>
+<td>-0.21</td>
+<td>-0.66</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">vs</td>
+<td>0.66</td>
+<td>-0.81</td>
+<td>-0.71</td>
+<td>-0.72</td>
+<td>0.44</td>
+<td>-0.55</td>
+<td>0.74</td>
+<td>1.00</td>
+<td>0.17</td>
+<td>0.21</td>
+<td>-0.57</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">am</td>
+<td>0.60</td>
+<td>-0.52</td>
+<td>-0.59</td>
+<td>-0.24</td>
+<td>0.71</td>
+<td>-0.69</td>
+<td>-0.23</td>
+<td>0.17</td>
+<td>1.00</td>
+<td>0.79</td>
+<td>0.06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">gear</td>
+<td>0.48</td>
+<td>-0.49</td>
+<td>-0.56</td>
+<td>-0.13</td>
+<td>0.70</td>
+<td>-0.58</td>
+<td>-0.21</td>
+<td>0.21</td>
+<td>0.79</td>
+<td>1.00</td>
+<td>0.27</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">carb</td>
+<td>-0.55</td>
+<td>0.53</td>
+<td>0.39</td>
+<td>0.75</td>
+<td>-0.09</td>
+<td>0.43</td>
+<td>-0.66</td>
+<td>-0.57</td>
+<td>0.06</td>
+<td>0.27</td>
+<td>1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>mpg(연비)가 y이고 y와 상관관계가 가장 높은것은 wt(차무게), hp(마력)</p>
+</blockquote>
+<div id="c56522a1-d80a-42d3-b938-f719fcca66b0" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>m_full <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg<span class="sc">~</span>., mtcars)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m_full)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = mpg ~ ., data = mtcars)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.4506 -1.6044 -0.1196  1.2193  4.6271 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept) 12.30337   18.71788   0.657   0.5181  
+cyl         -0.11144    1.04502  -0.107   0.9161  
+disp         0.01334    0.01786   0.747   0.4635  
+hp          -0.02148    0.02177  -0.987   0.3350  
+drat         0.78711    1.63537   0.481   0.6353  
+wt          -3.71530    1.89441  -1.961   0.0633 .
+qsec         0.82104    0.73084   1.123   0.2739  
+vs           0.31776    2.10451   0.151   0.8814  
+am           2.52023    2.05665   1.225   0.2340  
+gear         0.65541    1.49326   0.439   0.6652  
+carb        -0.19942    0.82875  -0.241   0.8122  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.65 on 21 degrees of freedom
+Multiple R-squared:  0.869, Adjusted R-squared:  0.8066 
+F-statistic: 13.93 on 10 and 21 DF,  p-value: 3.793e-07</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>다중공산성 떄문에 회귀계수는 다 유의하지 않게 나옴</p>
+</blockquote>
+<div id="23ede06a-1a95-4d19-98fe-fd03c68f5cca" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="b7f1aa54-927e-4a5c-b891-9e405222a55e" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>fit<span class="ot">&lt;-</span><span class="fu">regsubsets</span>(mpg<span class="sc">~</span>., <span class="at">data=</span>mtcars, <span class="at">nbest=</span><span class="dv">1</span>,<span class="at">nvmax=</span><span class="dv">9</span>,</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="co"># method=c("exhaustive"(모든가능한),"backward", "forward", "seqrep")</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="at">method=</span><span class="st">'exhaustive'</span>,</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="ea863335-6b97-4280-9789-ac55d4721533" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Subset selection object
+Call: regsubsets.formula(mpg ~ ., data = mtcars, nbest = 1, nvmax = 9, 
+    method = "exhaustive", )
+10 Variables  (and intercept)
+     Forced in Forced out
+cyl      FALSE      FALSE
+disp     FALSE      FALSE
+hp       FALSE      FALSE
+drat     FALSE      FALSE
+wt       FALSE      FALSE
+qsec     FALSE      FALSE
+vs       FALSE      FALSE
+am       FALSE      FALSE
+gear     FALSE      FALSE
+carb     FALSE      FALSE
+1 subsets of each size up to 9
+Selection Algorithm: exhaustive
+         cyl disp hp  drat wt  qsec vs  am  gear carb
+1  ( 1 ) " " " "  " " " "  "*" " "  " " " " " "  " " 
+2  ( 1 ) "*" " "  " " " "  "*" " "  " " " " " "  " " 
+3  ( 1 ) " " " "  " " " "  "*" "*"  " " "*" " "  " " 
+4  ( 1 ) " " " "  "*" " "  "*" "*"  " " "*" " "  " " 
+5  ( 1 ) " " "*"  "*" " "  "*" "*"  " " "*" " "  " " 
+6  ( 1 ) " " "*"  "*" "*"  "*" "*"  " " "*" " "  " " 
+7  ( 1 ) " " "*"  "*" "*"  "*" "*"  " " "*" "*"  " " 
+8  ( 1 ) " " "*"  "*" "*"  "*" "*"  " " "*" "*"  "*" 
+9  ( 1 ) " " "*"  "*" "*"  "*" "*"  "*" "*" "*"  "*" </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>설명변수 2개를 쓴거는 <span class="math inline">\(_{10}C_{2}=45\)</span>개 모형을 만들 수 있음. <span class="math inline">\(R^2\)</span>을 봐서 좋은걸 보면 cyl이랑 wt쓴게 제일 좋은 모형이야.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>설명변수 1개를 쓴다면 그 중에서 wt쓴거의 <span class="math inline">\(R^2\)</span>가 제일 좋아.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>설명변수 3개는 wt,qsec,am 쓴게 제일 좋아</p>
+</blockquote>
+<ul>
+<li><p><code>Forced in</code>: 나는 이 변수가 꼭 들어갔으면 좋겠어</p></li>
+<li><p><code>Forced out</code> : 나는 이변수가 꼭 뺐으면 좋겠어</p></li>
+<li><p>10개 쓴거가 full model 이고 설명변수를 1개 2개 3개 쓴…</p></li>
+</ul>
+<div id="04148691-2d1a-4029-be18-b759bbf16362" class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">summary</span>(fit),</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">round</span>(<span class="fu">cbind</span>(which,rss,rsq,adjr2,cp,bic),<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A matrix: 9 × 16 of type dbl</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">(Intercept)</th>
+<th data-quarto-table-cell-role="th" scope="col">cyl</th>
+<th data-quarto-table-cell-role="th" scope="col">disp</th>
+<th data-quarto-table-cell-role="th" scope="col">hp</th>
+<th data-quarto-table-cell-role="th" scope="col">drat</th>
+<th data-quarto-table-cell-role="th" scope="col">wt</th>
+<th data-quarto-table-cell-role="th" scope="col">qsec</th>
+<th data-quarto-table-cell-role="th" scope="col">vs</th>
+<th data-quarto-table-cell-role="th" scope="col">am</th>
+<th data-quarto-table-cell-role="th" scope="col">gear</th>
+<th data-quarto-table-cell-role="th" scope="col">carb</th>
+<th data-quarto-table-cell-role="th" scope="col">rss</th>
+<th data-quarto-table-cell-role="th" scope="col">rsq</th>
+<th data-quarto-table-cell-role="th" scope="col">adjr2</th>
+<th data-quarto-table-cell-role="th" scope="col">cp</th>
+<th data-quarto-table-cell-role="th" scope="col">bic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>278.322</td>
+<td>0.753</td>
+<td>0.745</td>
+<td>11.627</td>
+<td>-37.795</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">2</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>191.172</td>
+<td>0.830</td>
+<td>0.819</td>
+<td>1.219</td>
+<td>-46.348</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">3</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>169.286</td>
+<td>0.850</td>
+<td>0.834</td>
+<td>0.103</td>
+<td>-46.773</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">4</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>160.066</td>
+<td>0.858</td>
+<td>0.837</td>
+<td>0.790</td>
+<td>-45.099</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">5</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>153.438</td>
+<td>0.864</td>
+<td>0.838</td>
+<td>1.846</td>
+<td>-42.987</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">6</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>150.093</td>
+<td>0.867</td>
+<td>0.835</td>
+<td>3.370</td>
+<td>-40.227</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">7</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>148.528</td>
+<td>0.868</td>
+<td>0.830</td>
+<td>5.147</td>
+<td>-37.096</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">8</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>147.843</td>
+<td>0.869</td>
+<td>0.823</td>
+<td>7.050</td>
+<td>-33.779</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">9</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>147.574</td>
+<td>0.869</td>
+<td>0.815</td>
+<td>9.011</td>
+<td>-30.371</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><code>which,rss,rsq,adjr2,cp,bic</code></p>
+<ul>
+<li><p>which:어떤 변수를 썼는지?</p></li>
+<li><p>rss: sse 작을 수록 좋다. -&gt; <code>147.574</code> 제일작은데, 원래 제일 복잡한 모형이 제일 작다. 감소하는 차이를 보자..</p></li>
+<li><p>rsq : <span class="math inline">\(R^2\)</span> 크면 좋은데 둔화되는 점까지 보자.</p></li>
+<li><p>adjr2 : <span class="math inline">\(R^2_{adj}\)</span> 크면 좋다. <code>0.838</code> 5개</p></li>
+<li><p>cp: 작으면 좋다. <span class="math inline">\(cp \leq p+1\)</span> <code>0.103</code> 3개</p></li>
+<li><p>bic: 작으면 좋다. <code>-46.773</code> 3개</p></li>
+</ul>
+<blockquote class="blockquote">
+<p>3개를 쓰는게 좋을 거 같다.</p>
+</blockquote>
+<div id="7e6489d9-ebec-4031-973c-4ece69c8ab06" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>fit_3<span class="ot">&lt;-</span><span class="fu">lm</span>(mpg<span class="sc">~</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>am,mtcars)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = mpg ~ wt + qsec + am, data = mtcars)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.4811 -1.5555 -0.7257  1.4110  4.6610 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   9.6178     6.9596   1.382 0.177915    
+wt           -3.9165     0.7112  -5.507 6.95e-06 ***
+qsec          1.2259     0.2887   4.247 0.000216 ***
+am            2.9358     1.4109   2.081 0.046716 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.459 on 28 degrees of freedom
+Multiple R-squared:  0.8497,    Adjusted R-squared:  0.8336 
+F-statistic: 52.75 on 3 and 28 DF,  p-value: 1.21e-11</code></pre>
+</div>
+</div>
+<div id="855781e0-4156-4152-a1b1-267dcb1eef33" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>fit_4<span class="ot">&lt;-</span><span class="fu">lm</span>(mpg<span class="sc">~</span>hp<span class="sc">+</span>wt<span class="sc">+</span>qsec<span class="sc">+</span>am,mtcars)</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+Call:
+lm(formula = mpg ~ hp + wt + qsec + am, data = mtcars)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.4975 -1.5902 -0.1122  1.1795  4.5404 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept) 17.44019    9.31887   1.871  0.07215 . 
+hp          -0.01765    0.01415  -1.247  0.22309   
+wt          -3.23810    0.88990  -3.639  0.00114 **
+qsec         0.81060    0.43887   1.847  0.07573 . 
+am           2.92550    1.39715   2.094  0.04579 * 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.435 on 27 degrees of freedom
+Multiple R-squared:  0.8579,    Adjusted R-squared:  0.8368 
+F-statistic: 40.74 on 4 and 27 DF,  p-value: 4.589e-11</code></pre>
+</div>
+</div>
+<div id="36d67640-eeee-4849-9347-299b5c10bb03" class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>fit<span class="ot">&lt;-</span><span class="fu">regsubsets</span>(mpg<span class="sc">~</span>., <span class="at">data=</span>mtcars, <span class="at">nbest=</span><span class="dv">1</span>,<span class="at">nvmax=</span><span class="dv">9</span>,</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="co"># method=c("exhaustive"(모든가능한),"backward", "forward", "seqrep")</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="at">method=</span><span class="st">'backward'</span>,</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Subset selection object
+Call: regsubsets.formula(mpg ~ ., data = mtcars, nbest = 1, nvmax = 9, 
+    method = "backward", )
+10 Variables  (and intercept)
+     Forced in Forced out
+cyl      FALSE      FALSE
+disp     FALSE      FALSE
+hp       FALSE      FALSE
+drat     FALSE      FALSE
+wt       FALSE      FALSE
+qsec     FALSE      FALSE
+vs       FALSE      FALSE
+am       FALSE      FALSE
+gear     FALSE      FALSE
+carb     FALSE      FALSE
+1 subsets of each size up to 9
+Selection Algorithm: backward
+         cyl disp hp  drat wt  qsec vs  am  gear carb
+1  ( 1 ) " " " "  " " " "  "*" " "  " " " " " "  " " 
+2  ( 1 ) " " " "  " " " "  "*" "*"  " " " " " "  " " 
+3  ( 1 ) " " " "  " " " "  "*" "*"  " " "*" " "  " " 
+4  ( 1 ) " " " "  "*" " "  "*" "*"  " " "*" " "  " " 
+5  ( 1 ) " " "*"  "*" " "  "*" "*"  " " "*" " "  " " 
+6  ( 1 ) " " "*"  "*" "*"  "*" "*"  " " "*" " "  " " 
+7  ( 1 ) " " "*"  "*" "*"  "*" "*"  " " "*" "*"  " " 
+8  ( 1 ) " " "*"  "*" "*"  "*" "*"  " " "*" "*"  "*" 
+9  ( 1 ) " " "*"  "*" "*"  "*" "*"  "*" "*" "*"  "*" </code></pre>
+</div>
+</div>
+<ul>
+<li><p>10번째부터 시작해서 거꾸로 올라감. 맨처음에 cyl이 빠지고 9개</p></li>
+<li><p>그다음 vs가 빠짐</p></li>
+<li><p>그다음 carb가 빠짐.</p></li>
+</ul>
+<div id="f0d39a1d-2bde-4213-a163-380b6c216440" class="cell" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>fit<span class="ot">&lt;-</span><span class="fu">regsubsets</span>(mpg<span class="sc">~</span>., <span class="at">data=</span>mtcars, <span class="at">nbest=</span><span class="dv">45</span>,<span class="at">nvmax=</span><span class="dv">9</span>,</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="at">method=</span><span class="st">'exhaustive'</span>,</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>ERROR: Error in leaps.exhaustive(a, really.big): Exhaustive search will be S L O W, must specify really.big=T</code></pre>
+</div>
+</div>
+<ul>
+<li>nbest값을 너무 크게 주면 값이 너무 많아져서 에러메시지가뜬다.</li>
+</ul>
+<div id="49818a1d-2973-4932-ace7-35c5e83d997a" class="cell" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>fit<span class="ot">&lt;-</span><span class="fu">regsubsets</span>(mpg<span class="sc">~</span>., <span class="at">data=</span>mtcars, <span class="at">nbest=</span><span class="dv">45</span>,<span class="at">nvmax=</span><span class="dv">9</span>,</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="at">method=</span><span class="st">'exhaustive'</span>, <span class="at">really.big=</span>T</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Subset selection object
+Call: regsubsets.formula(mpg ~ ., data = mtcars, nbest = 45, nvmax = 9, 
+    method = "exhaustive", really.big = T)
+10 Variables  (and intercept)
+     Forced in Forced out
+cyl      FALSE      FALSE
+disp     FALSE      FALSE
+hp       FALSE      FALSE
+drat     FALSE      FALSE
+wt       FALSE      FALSE
+qsec     FALSE      FALSE
+vs       FALSE      FALSE
+am       FALSE      FALSE
+gear     FALSE      FALSE
+carb     FALSE      FALSE
+45 subsets of each size up to 9
+Selection Algorithm: exhaustive
+          cyl disp hp  drat wt  qsec vs  am  gear carb
+1  ( 1 )  " " " "  " " " "  "*" " "  " " " " " "  " " 
+1  ( 2 )  "*" " "  " " " "  " " " "  " " " " " "  " " 
+1  ( 3 )  " " "*"  " " " "  " " " "  " " " " " "  " " 
+1  ( 4 )  " " " "  "*" " "  " " " "  " " " " " "  " " 
+1  ( 5 )  " " " "  " " "*"  " " " "  " " " " " "  " " 
+1  ( 6 )  " " " "  " " " "  " " " "  "*" " " " "  " " 
+1  ( 7 )  " " " "  " " " "  " " " "  " " "*" " "  " " 
+1  ( 8 )  " " " "  " " " "  " " " "  " " " " " "  "*" 
+1  ( 9 )  " " " "  " " " "  " " " "  " " " " "*"  " " 
+1  ( 10 ) " " " "  " " " "  " " "*"  " " " " " "  " " 
+2  ( 1 )  "*" " "  " " " "  "*" " "  " " " " " "  " " 
+2  ( 2 )  " " " "  "*" " "  "*" " "  " " " " " "  " " 
+2  ( 3 )  " " " "  " " " "  "*" "*"  " " " " " "  " " 
+2  ( 4 )  " " " "  " " " "  "*" " "  "*" " " " "  " " 
+2  ( 5 )  " " " "  " " " "  "*" " "  " " " " " "  "*" 
+2  ( 6 )  " " " "  "*" " "  " " " "  " " "*" " "  " " 
+2  ( 7 )  " " "*"  " " " "  "*" " "  " " " " " "  " " 
+2  ( 8 )  " " "*"  " " " "  " " " "  " " " " " "  "*" 
+2  ( 9 )  " " " "  " " "*"  "*" " "  " " " " " "  " " 
+2  ( 10 ) "*" "*"  " " " "  " " " "  " " " " " "  " " 
+2  ( 11 ) "*" " "  " " " "  " " " "  " " "*" " "  " " 
+2  ( 12 ) " " " "  " " " "  "*" " "  " " " " "*"  " " 
+2  ( 13 ) " " " "  " " " "  "*" " "  " " "*" " "  " " 
+2  ( 14 ) " " " "  "*" " "  " " " "  " " " " "*"  " " 
+2  ( 15 ) " " "*"  "*" " "  " " " "  " " " " " "  " " 
+2  ( 16 ) " " " "  "*" "*"  " " " "  " " " " " "  " " 
+2  ( 17 ) "*" " "  "*" " "  " " " "  " " " " " "  " " 
+2  ( 18 ) "*" " "  " " " "  " " " "  " " " " " "  "*" 
+2  ( 19 ) "*" " "  " " "*"  " " " "  " " " " " "  " " 
+2  ( 20 ) "*" " "  " " " "  " " "*"  " " " " " "  " " 
+2  ( 21 ) " " " "  " " " "  " " " "  " " " " "*"  "*" 
+2  ( 22 ) " " "*"  " " " "  " " " "  " " "*" " "  " " 
+2  ( 23 ) " " "*"  " " "*"  " " " "  " " " " " "  " " 
+2  ( 24 ) "*" " "  " " " "  " " " "  " " " " "*"  " " 
+2  ( 25 ) "*" " "  " " " "  " " " "  "*" " " " "  " " 
+2  ( 26 ) " " "*"  " " " "  " " " "  "*" " " " "  " " 
+2  ( 27 ) " " "*"  " " " "  " " "*"  " " " " " "  " " 
+2  ( 28 ) " " "*"  " " " "  " " " "  " " " " "*"  " " 
+2  ( 29 ) " " " "  " " "*"  " " " "  " " " " " "  "*" 
+2  ( 30 ) " " " "  " " " "  " " " "  " " "*" " "  "*" 
+2  ( 31 ) " " " "  " " " "  " " "*"  " " "*" " "  " " 
+2  ( 32 ) " " " "  " " " "  " " " "  "*" "*" " "  " " 
+2  ( 33 ) " " " "  "*" " "  " " "*"  " " " " " "  " " 
+2  ( 34 ) " " " "  " " "*"  " " " "  "*" " " " "  " " 
+2  ( 35 ) " " " "  "*" " "  " " " "  "*" " " " "  " " 
+2  ( 36 ) " " " "  "*" " "  " " " "  " " " " " "  "*" 
+2  ( 37 ) " " " "  " " "*"  " " "*"  " " " " " "  " " 
+2  ( 38 ) " " " "  " " " "  " " " "  "*" " " "*"  " " 
+2  ( 39 ) " " " "  " " " "  " " "*"  " " " " "*"  " " 
+2  ( 40 ) " " " "  " " "*"  " " " "  " " "*" " "  " " 
+2  ( 41 ) " " " "  " " " "  " " " "  "*" " " " "  "*" 
+2  ( 42 ) " " " "  " " "*"  " " " "  " " " " "*"  " " 
+2  ( 43 ) " " " "  " " " "  " " "*"  "*" " " " "  " " 
+2  ( 44 ) " " " "  " " " "  " " " "  " " "*" "*"  " " 
+2  ( 45 ) " " " "  " " " "  " " "*"  " " " " " "  "*" 
+3  ( 1 )  " " " "  " " " "  "*" "*"  " " "*" " "  " " 
+3  ( 2 )  "*" " "  "*" " "  "*" " "  " " " " " "  " " 
+3  ( 3 )  "*" " "  " " " "  "*" " "  " " " " " "  "*" 
+3  ( 4 )  " " " "  "*" " "  "*" " "  " " "*" " "  " " 
+3  ( 5 )  "*" " "  " " " "  "*" "*"  " " " " " "  " " 
+3  ( 6 )  " " " "  " " "*"  "*" "*"  " " " " " "  " " 
+3  ( 7 )  " " " "  "*" "*"  "*" " "  " " " " " "  " " 
+3  ( 8 )  " " " "  "*" " "  "*" " "  " " " " "*"  " " 
+3  ( 9 )  " " " "  "*" " "  "*" "*"  " " " " " "  " " 
+3  ( 10 ) " " " "  " " " "  "*" "*"  " " " " "*"  " " 
+3  ( 11 ) "*" " "  " " " "  "*" " "  " " " " "*"  " " 
+3  ( 12 ) " " " "  "*" " "  "*" " "  "*" " " " "  " " 
+3  ( 13 ) "*" "*"  " " " "  "*" " "  " " " " " "  " " 
+3  ( 14 ) "*" " "  " " " "  "*" " "  "*" " " " "  " " 
+3  ( 15 ) "*" " "  " " " "  "*" " "  " " "*" " "  " " 
+3  ( 16 ) "*" " "  " " "*"  "*" " "  " " " " " "  " " 
+3  ( 17 ) " " "*"  " " " "  " " " "  " " "*" " "  "*" 
+3  ( 18 ) " " " "  " " " "  "*" "*"  " " " " " "  "*" 
+3  ( 19 ) " " " "  "*" " "  "*" " "  " " " " " "  "*" 
+3  ( 20 ) " " "*"  "*" " "  "*" " "  " " " " " "  " " 
+3  ( 21 ) " " " "  " " " "  "*" "*"  "*" " " " "  " " 
+3  ( 22 ) " " "*"  " " " "  "*" "*"  " " " " " "  " " 
+3  ( 23 ) " " " "  " " "*"  "*" " "  " " " " " "  "*" 
+3  ( 24 ) " " "*"  " " " "  " " " "  " " " " "*"  "*" 
+3  ( 25 ) " " "*"  " " " "  "*" " "  " " " " " "  "*" 
+3  ( 26 ) " " " "  " " " "  "*" " "  " " " " "*"  "*" 
+3  ( 27 ) " " " "  " " " "  "*" " "  "*" " " " "  "*" 
+3  ( 28 ) "*" " "  " " " "  " " " "  " " "*" " "  "*" 
+3  ( 29 ) " " "*"  " " "*"  " " " "  " " " " " "  "*" 
+3  ( 30 ) " " " "  " " " "  "*" " "  " " "*" " "  "*" 
+3  ( 31 ) " " " "  " " " "  "*" " "  "*" "*" " "  " " 
+3  ( 32 ) " " " "  " " "*"  "*" " "  "*" " " " "  " " 
+3  ( 33 ) " " " "  "*" " "  " " " "  "*" "*" " "  " " 
+3  ( 34 ) "*" " "  "*" " "  " " " "  " " "*" " "  " " 
+3  ( 35 ) " " "*"  " " " "  "*" " "  "*" " " " "  " " 
+3  ( 36 ) " " " "  " " " "  "*" " "  "*" " " "*"  " " 
+3  ( 37 ) " " "*"  "*" " "  " " " "  " " "*" " "  " " 
+3  ( 38 ) " " " "  "*" " "  " " " "  " " "*" " "  "*" 
+3  ( 39 ) " " " "  "*" "*"  " " " "  " " "*" " "  " " 
+3  ( 40 ) " " " "  "*" " "  " " " "  " " " " "*"  "*" 
+3  ( 41 ) "*" " "  " " " "  " " " "  " " " " "*"  "*" 
+3  ( 42 ) " " " "  "*" " "  " " " "  " " "*" "*"  " " 
+3  ( 43 ) " " " "  "*" " "  " " "*"  " " "*" " "  " " 
+3  ( 44 ) "*" "*"  " " " "  " " " "  " " " " " "  "*" 
+3  ( 45 ) " " "*"  " " " "  " " "*"  " " " " " "  "*" 
+4  ( 1 )  " " " "  "*" " "  "*" "*"  " " "*" " "  " " 
+4  ( 2 )  " " " "  " " " "  "*" "*"  " " "*" " "  "*" 
+4  ( 3 )  " " "*"  " " " "  "*" "*"  " " "*" " "  " " 
+4  ( 4 )  "*" " "  " " " "  "*" "*"  " " "*" " "  " " 
+4  ( 5 )  " " " "  " " "*"  "*" "*"  " " "*" " "  " " 
+4  ( 6 )  "*" " "  " " " "  "*" " "  " " "*" " "  "*" 
+4  ( 7 )  " " " "  "*" " "  "*" " "  "*" "*" " "  " " 
+4  ( 8 )  " " " "  " " " "  "*" "*"  " " "*" "*"  " " 
+4  ( 9 )  " " " "  " " " "  "*" "*"  "*" "*" " "  " " 
+4  ( 10 ) "*" " "  "*" " "  "*" " "  " " "*" " "  " " 
+4  ( 11 ) "*" "*"  "*" " "  "*" " "  " " " " " "  " " 
+4  ( 12 ) "*" " "  " " "*"  "*" " "  " " " " " "  "*" 
+4  ( 13 ) "*" " "  " " " "  "*" " "  " " " " "*"  "*" 
+4  ( 14 ) "*" " "  "*" " "  "*" " "  " " " " " "  "*" 
+4  ( 15 ) " " " "  "*" "*"  "*" "*"  " " " " " "  " " 
+4  ( 16 ) "*" " "  "*" "*"  "*" " "  " " " " " "  " " 
+4  ( 17 ) " " " "  "*" " "  "*" "*"  " " " " "*"  " " 
+4  ( 18 ) " " " "  " " " "  "*" "*"  " " " " "*"  "*" 
+4  ( 19 ) " " " "  "*" " "  "*" " "  " " " " "*"  "*" 
+4  ( 20 ) " " " "  "*" " "  "*" " "  " " "*" " "  "*" 
+4  ( 21 ) "*" " "  "*" " "  "*" "*"  " " " " " "  " " 
+4  ( 22 ) "*" "*"  " " " "  "*" "*"  " " " " " "  " " 
+4  ( 23 ) "*" " "  "*" " "  "*" " "  " " " " "*"  " " 
+4  ( 24 ) "*" " "  " " " "  "*" "*"  " " " " " "  "*" 
+4  ( 25 ) "*" " "  "*" " "  "*" " "  "*" " " " "  " " 
+4  ( 26 ) " " " "  " " "*"  "*" "*"  " " " " " "  "*" 
+4  ( 27 ) " " " "  "*" "*"  "*" " "  " " "*" " "  " " 
+4  ( 28 ) "*" "*"  " " " "  "*" " "  " " " " " "  "*" 
+4  ( 29 ) "*" " "  " " " "  "*" " "  "*" " " " "  "*" 
+4  ( 30 ) "*" " "  " " "*"  "*" "*"  " " " " " "  " " 
+4  ( 31 ) " " " "  "*" "*"  "*" " "  "*" " " " "  " " 
+4  ( 32 ) " " " "  "*" "*"  "*" " "  " " " " " "  "*" 
+4  ( 33 ) " " " "  "*" " "  "*" " "  " " "*" "*"  " " 
+4  ( 34 ) "*" " "  " " " "  "*" "*"  "*" " " " "  " " 
+4  ( 35 ) " " "*"  "*" " "  "*" " "  " " "*" " "  " " 
+4  ( 36 ) " " " "  "*" " "  "*" " "  "*" " " "*"  " " 
+4  ( 37 ) "*" " "  " " " "  "*" "*"  " " " " "*"  " " 
+4  ( 38 ) " " " "  "*" "*"  "*" " "  " " " " "*"  " " 
+4  ( 39 ) " " "*"  " " "*"  "*" "*"  " " " " " "  " " 
+4  ( 40 ) " " " "  " " "*"  "*" "*"  " " " " "*"  " " 
+4  ( 41 ) " " "*"  "*" "*"  "*" " "  " " " " " "  " " 
+4  ( 42 ) " " " "  " " "*"  "*" "*"  "*" " " " "  " " 
+4  ( 43 ) " " "*"  " " "*"  " " " "  " " "*" " "  "*" 
+4  ( 44 ) " " " "  " " " "  "*" " "  "*" "*" " "  "*" 
+4  ( 45 ) " " "*"  "*" " "  "*" " "  " " " " "*"  " " 
+5  ( 1 )  " " "*"  "*" " "  "*" "*"  " " "*" " "  " " 
+5  ( 2 )  " " " "  " " "*"  "*" "*"  " " "*" " "  "*" 
+5  ( 3 )  " " " "  "*" " "  "*" "*"  " " "*" " "  "*" 
+5  ( 4 )  " " " "  " " " "  "*" "*"  " " "*" "*"  "*" 
+5  ( 5 )  " " " "  "*" "*"  "*" "*"  " " "*" " "  " " 
+5  ( 6 )  "*" " "  " " " "  "*" "*"  " " "*" " "  "*" 
+5  ( 7 )  "*" " "  "*" " "  "*" "*"  " " "*" " "  " " 
+5  ( 8 )  " " " "  "*" " "  "*" "*"  "*" "*" " "  " " 
+5  ( 9 )  " " " "  "*" " "  "*" "*"  " " "*" "*"  " " 
+5  ( 10 ) " " " "  " " " "  "*" "*"  "*" "*" " "  "*" 
+5  ( 11 ) " " "*"  " " " "  "*" "*"  " " "*" " "  "*" 
+5  ( 12 ) "*" "*"  " " " "  "*" "*"  " " "*" " "  " " 
+5  ( 13 ) "*" " "  "*" " "  "*" " "  " " "*" " "  "*" 
+5  ( 14 ) "*" "*"  "*" " "  "*" " "  " " "*" " "  " " 
+5  ( 15 ) " " "*"  " " "*"  "*" "*"  " " "*" " "  " " 
+5  ( 16 ) " " " "  "*" " "  "*" " "  "*" "*" " "  "*" 
+5  ( 17 ) " " "*"  "*" " "  "*" " "  "*" "*" " "  " " 
+5  ( 18 ) " " "*"  "*" " "  "*" "*"  " " " " "*"  " " 
+5  ( 19 ) " " "*"  " " " "  "*" "*"  " " "*" "*"  " " 
+5  ( 20 ) " " "*"  " " " "  "*" "*"  "*" "*" " "  " " 
+5  ( 21 ) "*" " "  " " "*"  "*" " "  " " "*" " "  "*" 
+5  ( 22 ) "*" " "  " " " "  "*" "*"  " " "*" "*"  " " 
+5  ( 23 ) " " " "  " " "*"  "*" "*"  " " " " "*"  "*" 
+5  ( 24 ) "*" " "  " " "*"  "*" "*"  " " "*" " "  " " 
+5  ( 25 ) " " " "  " " "*"  "*" "*"  " " "*" "*"  " " 
+5  ( 26 ) "*" " "  "*" " "  "*" " "  "*" "*" " "  " " 
+5  ( 27 ) "*" "*"  "*" "*"  "*" " "  " " " " " "  " " 
+5  ( 28 ) "*" " "  " " " "  "*" "*"  "*" "*" " "  " " 
+5  ( 29 ) " " " "  "*" " "  "*" "*"  " " " " "*"  "*" 
+5  ( 30 ) "*" "*"  "*" " "  "*" " "  " " " " "*"  " " 
+5  ( 31 ) "*" " "  " " " "  "*" " "  "*" "*" " "  "*" 
+5  ( 32 ) " " " "  "*" "*"  "*" " "  "*" "*" " "  " " 
+5  ( 33 ) " " " "  " " "*"  "*" "*"  "*" "*" " "  " " 
+5  ( 34 ) " " " "  "*" " "  "*" " "  " " "*" "*"  "*" 
+5  ( 35 ) "*" " "  "*" " "  "*" " "  " " " " "*"  "*" 
+5  ( 36 ) " " " "  "*" "*"  "*" " "  " " "*" " "  "*" 
+5  ( 37 ) "*" " "  " " " "  "*" " "  " " "*" "*"  "*" 
+5  ( 38 ) " " " "  "*" "*"  "*" " "  " " " " "*"  "*" 
+5  ( 39 ) "*" "*"  " " " "  "*" " "  " " "*" " "  "*" 
+5  ( 40 ) "*" "*"  "*" " "  "*" "*"  " " " " " "  " " 
+5  ( 41 ) " " " "  "*" " "  "*" " "  "*" "*" "*"  " " 
+5  ( 42 ) "*" " "  "*" "*"  "*" " "  " " " " " "  "*" 
+5  ( 43 ) " " " "  " " " "  "*" "*"  "*" "*" "*"  " " 
+5  ( 44 ) "*" " "  "*" "*"  "*" " "  " " "*" " "  " " 
+5  ( 45 ) "*" " "  "*" " "  "*" " "  " " "*" "*"  " " 
+6  ( 1 )  " " "*"  "*" "*"  "*" "*"  " " "*" " "  " " 
+6  ( 2 )  " " "*"  "*" " "  "*" "*"  " " "*" "*"  " " 
+6  ( 3 )  "*" "*"  "*" " "  "*" "*"  " " "*" " "  " " 
+6  ( 4 )  " " "*"  "*" " "  "*" "*"  "*" "*" " "  " " 
+6  ( 5 )  " " " "  "*" "*"  "*" "*"  " " "*" " "  "*" 
+6  ( 6 )  " " "*"  "*" " "  "*" "*"  " " "*" " "  "*" 
+6  ( 7 )  " " " "  "*" " "  "*" "*"  " " "*" "*"  "*" 
+6  ( 8 )  " " " "  " " "*"  "*" "*"  " " "*" "*"  "*" 
+6  ( 9 )  "*" " "  "*" " "  "*" "*"  " " "*" " "  "*" 
+6  ( 10 ) "*" " "  " " "*"  "*" "*"  " " "*" " "  "*" 
+6  ( 11 ) " " " "  "*" " "  "*" "*"  "*" "*" " "  "*" 
+6  ( 12 ) " " "*"  " " "*"  "*" "*"  " " "*" " "  "*" 
+6  ( 13 ) " " " "  " " "*"  "*" "*"  "*" "*" " "  "*" 
+6  ( 14 ) "*" " "  " " " "  "*" "*"  " " "*" "*"  "*" 
+6  ( 15 ) "*" "*"  " " " "  "*" "*"  " " "*" " "  "*" 
+6  ( 16 ) " " "*"  " " " "  "*" "*"  " " "*" "*"  "*" 
+6  ( 17 ) " " " "  " " " "  "*" "*"  "*" "*" "*"  "*" 
+6  ( 18 ) " " " "  "*" "*"  "*" "*"  "*" "*" " "  " " 
+6  ( 19 ) "*" " "  "*" "*"  "*" "*"  " " "*" " "  " " 
+6  ( 20 ) " " " "  "*" "*"  "*" "*"  " " "*" "*"  " " 
+6  ( 21 ) "*" " "  " " " "  "*" "*"  "*" "*" " "  "*" 
+6  ( 22 ) "*" "*"  "*" " "  "*" " "  "*" "*" " "  " " 
+6  ( 23 ) "*" " "  "*" " "  "*" "*"  "*" "*" " "  " " 
+6  ( 24 ) " " " "  "*" " "  "*" "*"  "*" "*" "*"  " " 
+6  ( 25 ) "*" " "  "*" " "  "*" "*"  " " "*" "*"  " " 
+6  ( 26 ) " " " "  "*" "*"  "*" " "  "*" "*" " "  "*" 
+6  ( 27 ) "*" "*"  " " "*"  "*" "*"  " " "*" " "  " " 
+6  ( 28 ) "*" " "  "*" "*"  "*" " "  " " "*" " "  "*" 
+6  ( 29 ) " " " "  "*" " "  "*" " "  "*" "*" "*"  "*" 
+6  ( 30 ) " " "*"  "*" "*"  "*" "*"  " " " " "*"  " " 
+6  ( 31 ) "*" " "  "*" " "  "*" " "  "*" "*" " "  "*" 
+6  ( 32 ) " " "*"  " " " "  "*" "*"  "*" "*" " "  "*" 
+6  ( 33 ) "*" "*"  " " " "  "*" "*"  "*" "*" " "  " " 
+6  ( 34 ) "*" "*"  " " " "  "*" "*"  " " "*" "*"  " " 
+6  ( 35 ) "*" " "  "*" " "  "*" " "  " " "*" "*"  "*" 
+6  ( 36 ) "*" "*"  "*" " "  "*" " "  " " "*" " "  "*" 
+6  ( 37 ) "*" "*"  "*" " "  "*" "*"  " " " " "*"  " " 
+6  ( 38 ) " " "*"  "*" "*"  "*" " "  "*" "*" " "  " " 
+6  ( 39 ) " " " "  "*" "*"  "*" "*"  " " " " "*"  "*" 
+6  ( 40 ) "*" "*"  "*" "*"  "*" " "  " " "*" " "  " " 
+6  ( 41 ) "*" "*"  "*" " "  "*" " "  " " "*" "*"  " " 
+6  ( 42 ) " " "*"  "*" " "  "*" " "  "*" "*" " "  "*" 
+6  ( 43 ) " " "*"  "*" " "  "*" " "  "*" "*" "*"  " " 
+6  ( 44 ) " " "*"  " " "*"  "*" "*"  " " "*" "*"  " " 
+6  ( 45 ) " " "*"  " " "*"  "*" "*"  "*" "*" " "  " " 
+7  ( 1 )  " " "*"  "*" "*"  "*" "*"  " " "*" "*"  " " 
+7  ( 2 )  "*" "*"  "*" "*"  "*" "*"  " " "*" " "  " " 
+7  ( 3 )  " " "*"  "*" "*"  "*" "*"  "*" "*" " "  " " 
+7  ( 4 )  "*" "*"  "*" " "  "*" "*"  " " "*" "*"  " " 
+7  ( 5 )  " " "*"  "*" " "  "*" "*"  "*" "*" "*"  " " 
+7  ( 6 )  " " "*"  "*" "*"  "*" "*"  " " "*" " "  "*" 
+7  ( 7 )  " " "*"  "*" " "  "*" "*"  " " "*" "*"  "*" 
+7  ( 8 )  "*" "*"  "*" " "  "*" "*"  "*" "*" " "  " " 
+7  ( 9 )  "*" "*"  "*" " "  "*" "*"  " " "*" " "  "*" 
+7  ( 10 ) " " " "  "*" "*"  "*" "*"  " " "*" "*"  "*" 
+7  ( 11 ) " " "*"  "*" " "  "*" "*"  "*" "*" " "  "*" 
+7  ( 12 ) " " " "  "*" "*"  "*" "*"  "*" "*" " "  "*" 
+7  ( 13 ) "*" " "  "*" "*"  "*" "*"  " " "*" " "  "*" 
+7  ( 14 ) " " " "  "*" " "  "*" "*"  "*" "*" "*"  "*" 
+7  ( 15 ) "*" " "  "*" " "  "*" "*"  " " "*" "*"  "*" 
+7  ( 16 ) "*" " "  " " "*"  "*" "*"  " " "*" "*"  "*" 
+7  ( 17 ) " " "*"  " " "*"  "*" "*"  " " "*" "*"  "*" 
+7  ( 18 ) " " " "  " " "*"  "*" "*"  "*" "*" "*"  "*" 
+7  ( 19 ) "*" "*"  " " "*"  "*" "*"  " " "*" " "  "*" 
+7  ( 20 ) "*" " "  "*" " "  "*" "*"  "*" "*" " "  "*" 
+7  ( 21 ) "*" " "  " " "*"  "*" "*"  "*" "*" " "  "*" 
+7  ( 22 ) " " "*"  " " "*"  "*" "*"  "*" "*" " "  "*" 
+7  ( 23 ) "*" "*"  " " " "  "*" "*"  " " "*" "*"  "*" 
+7  ( 24 ) "*" " "  " " " "  "*" "*"  "*" "*" "*"  "*" 
+7  ( 25 ) "*" "*"  " " " "  "*" "*"  "*" "*" " "  "*" 
+7  ( 26 ) " " "*"  " " " "  "*" "*"  "*" "*" "*"  "*" 
+7  ( 27 ) " " " "  "*" "*"  "*" " "  "*" "*" "*"  "*" 
+7  ( 28 ) "*" " "  "*" "*"  "*" "*"  "*" "*" " "  " " 
+7  ( 29 ) " " " "  "*" "*"  "*" "*"  "*" "*" "*"  " " 
+7  ( 30 ) "*" " "  "*" "*"  "*" "*"  " " "*" "*"  " " 
+7  ( 31 ) "*" "*"  "*" "*"  "*" " "  "*" "*" " "  " " 
+7  ( 32 ) "*" "*"  "*" " "  "*" " "  "*" "*" " "  "*" 
+7  ( 33 ) "*" "*"  "*" "*"  "*" "*"  " " " " "*"  " " 
+7  ( 34 ) "*" " "  "*" "*"  "*" " "  "*" "*" " "  "*" 
+7  ( 35 ) "*" "*"  "*" " "  "*" " "  "*" "*" "*"  " " 
+7  ( 36 ) " " "*"  "*" "*"  "*" "*"  " " " " "*"  "*" 
+7  ( 37 ) "*" " "  "*" " "  "*" " "  "*" "*" "*"  "*" 
+7  ( 38 ) "*" " "  "*" "*"  "*" " "  " " "*" "*"  "*" 
+7  ( 39 ) " " "*"  "*" "*"  "*" " "  "*" "*" " "  "*" 
+7  ( 40 ) "*" " "  "*" " "  "*" "*"  "*" "*" "*"  " " 
+7  ( 41 ) "*" "*"  "*" "*"  "*" " "  " " "*" " "  "*" 
+7  ( 42 ) " " "*"  "*" " "  "*" " "  "*" "*" "*"  "*" 
+7  ( 43 ) "*" "*"  " " "*"  "*" "*"  "*" "*" " "  " " 
+7  ( 44 ) "*" "*"  " " "*"  "*" "*"  " " "*" "*"  " " 
+7  ( 45 ) "*" "*"  "*" " "  "*" " "  " " "*" "*"  "*" 
+8  ( 1 )  " " "*"  "*" "*"  "*" "*"  " " "*" "*"  "*" 
+8  ( 2 )  " " "*"  "*" "*"  "*" "*"  "*" "*" "*"  " " 
+8  ( 3 )  "*" "*"  "*" "*"  "*" "*"  " " "*" "*"  " " 
+8  ( 4 )  "*" "*"  "*" "*"  "*" "*"  "*" "*" " "  " " 
+8  ( 5 )  "*" "*"  "*" "*"  "*" "*"  " " "*" " "  "*" 
+8  ( 6 )  "*" "*"  "*" " "  "*" "*"  "*" "*" "*"  " " 
+8  ( 7 )  "*" "*"  "*" " "  "*" "*"  " " "*" "*"  "*" 
+8  ( 8 )  " " "*"  "*" "*"  "*" "*"  "*" "*" " "  "*" 
+8  ( 9 )  " " "*"  "*" " "  "*" "*"  "*" "*" "*"  "*" 
+8  ( 10 ) "*" "*"  "*" " "  "*" "*"  "*" "*" " "  "*" 
+8  ( 11 ) "*" " "  "*" "*"  "*" "*"  " " "*" "*"  "*" 
+8  ( 12 ) " " " "  "*" "*"  "*" "*"  "*" "*" "*"  "*" 
+8  ( 13 ) "*" " "  "*" "*"  "*" "*"  "*" "*" " "  "*" 
+8  ( 14 ) "*" " "  "*" " "  "*" "*"  "*" "*" "*"  "*" 
+8  ( 15 ) "*" "*"  " " "*"  "*" "*"  " " "*" "*"  "*" 
+8  ( 16 ) "*" " "  " " "*"  "*" "*"  "*" "*" "*"  "*" 
+8  ( 17 ) " " "*"  " " "*"  "*" "*"  "*" "*" "*"  "*" 
+8  ( 18 ) "*" "*"  " " "*"  "*" "*"  "*" "*" " "  "*" 
+8  ( 19 ) "*" "*"  " " " "  "*" "*"  "*" "*" "*"  "*" 
+8  ( 20 ) "*" "*"  "*" "*"  "*" " "  "*" "*" " "  "*" 
+8  ( 21 ) " " "*"  "*" "*"  "*" " "  "*" "*" "*"  "*" 
+8  ( 22 ) "*" "*"  "*" " "  "*" " "  "*" "*" "*"  "*" 
+8  ( 23 ) "*" " "  "*" "*"  "*" " "  "*" "*" "*"  "*" 
+8  ( 24 ) "*" "*"  "*" "*"  "*" "*"  " " " " "*"  "*" 
+8  ( 25 ) "*" " "  "*" "*"  "*" "*"  "*" "*" "*"  " " 
+8  ( 26 ) "*" "*"  "*" "*"  "*" " "  "*" "*" "*"  " " 
+8  ( 27 ) "*" "*"  "*" "*"  "*" "*"  "*" " " "*"  " " 
+8  ( 28 ) "*" "*"  "*" "*"  "*" " "  " " "*" "*"  "*" 
+8  ( 29 ) " " "*"  "*" "*"  "*" "*"  "*" " " "*"  "*" 
+8  ( 30 ) "*" "*"  " " "*"  "*" "*"  "*" "*" "*"  " " 
+8  ( 31 ) "*" "*"  "*" " "  "*" "*"  "*" " " "*"  "*" 
+8  ( 32 ) "*" " "  "*" "*"  "*" "*"  "*" " " "*"  "*" 
+8  ( 33 ) "*" "*"  "*" "*"  "*" " "  "*" " " "*"  "*" 
+8  ( 34 ) "*" "*"  "*" "*"  "*" "*"  "*" " " " "  "*" 
+8  ( 35 ) "*" "*"  " " "*"  "*" "*"  "*" " " "*"  "*" 
+8  ( 36 ) "*" "*"  " " "*"  "*" " "  "*" "*" "*"  "*" 
+8  ( 37 ) " " "*"  "*" "*"  " " "*"  "*" "*" "*"  "*" 
+8  ( 38 ) "*" "*"  "*" "*"  " " " "  "*" "*" "*"  "*" 
+8  ( 39 ) "*" "*"  "*" "*"  " " "*"  " " "*" "*"  "*" 
+8  ( 40 ) "*" "*"  " " "*"  " " "*"  "*" "*" "*"  "*" 
+8  ( 41 ) "*" "*"  "*" "*"  " " "*"  "*" "*" " "  "*" 
+8  ( 42 ) "*" "*"  "*" " "  " " "*"  "*" "*" "*"  "*" 
+8  ( 43 ) "*" " "  "*" "*"  " " "*"  "*" "*" "*"  "*" 
+8  ( 44 ) "*" "*"  "*" "*"  " " "*"  "*" " " "*"  "*" 
+8  ( 45 ) "*" "*"  "*" "*"  " " "*"  "*" "*" "*"  " " 
+9  ( 1 )  " " "*"  "*" "*"  "*" "*"  "*" "*" "*"  "*" 
+9  ( 2 )  "*" "*"  "*" "*"  "*" "*"  " " "*" "*"  "*" 
+9  ( 3 )  "*" "*"  "*" "*"  "*" "*"  "*" "*" "*"  " " 
+9  ( 4 )  "*" "*"  "*" "*"  "*" "*"  "*" "*" " "  "*" 
+9  ( 5 )  "*" "*"  "*" " "  "*" "*"  "*" "*" "*"  "*" 
+9  ( 6 )  "*" " "  "*" "*"  "*" "*"  "*" "*" "*"  "*" 
+9  ( 7 )  "*" "*"  " " "*"  "*" "*"  "*" "*" "*"  "*" 
+9  ( 8 )  "*" "*"  "*" "*"  "*" " "  "*" "*" "*"  "*" 
+9  ( 9 )  "*" "*"  "*" "*"  "*" "*"  "*" " " "*"  "*" 
+9  ( 10 ) "*" "*"  "*" "*"  " " "*"  "*" "*" "*"  "*" </code></pre>
+</div>
+</div>
+<div id="f4bf1b28-0ab8-4170-83ff-a232f143d462" class="cell" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>fit<span class="ot">&lt;-</span><span class="fu">regsubsets</span>(mpg<span class="sc">~</span>., <span class="at">data=</span>mtcars, <span class="at">nbest=</span><span class="dv">1</span>,</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="at">method=</span><span class="st">'backward'</span>,</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">summary</span>(fit),</span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>     <span class="fu">round</span>(<span class="fu">cbind</span>(which,rss,rsq,adjr2,cp,bic),<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Subset selection object
+Call: regsubsets.formula(mpg ~ ., data = mtcars, nbest = 1, method = "backward", 
+    )
+10 Variables  (and intercept)
+     Forced in Forced out
+cyl      FALSE      FALSE
+disp     FALSE      FALSE
+hp       FALSE      FALSE
+drat     FALSE      FALSE
+wt       FALSE      FALSE
+qsec     FALSE      FALSE
+vs       FALSE      FALSE
+am       FALSE      FALSE
+gear     FALSE      FALSE
+carb     FALSE      FALSE
+1 subsets of each size up to 8
+Selection Algorithm: backward
+         cyl disp hp  drat wt  qsec vs  am  gear carb
+1  ( 1 ) " " " "  " " " "  "*" " "  " " " " " "  " " 
+2  ( 1 ) " " " "  " " " "  "*" "*"  " " " " " "  " " 
+3  ( 1 ) " " " "  " " " "  "*" "*"  " " "*" " "  " " 
+4  ( 1 ) " " " "  "*" " "  "*" "*"  " " "*" " "  " " 
+5  ( 1 ) " " "*"  "*" " "  "*" "*"  " " "*" " "  " " 
+6  ( 1 ) " " "*"  "*" "*"  "*" "*"  " " "*" " "  " " 
+7  ( 1 ) " " "*"  "*" "*"  "*" "*"  " " "*" "*"  " " 
+8  ( 1 ) " " "*"  "*" "*"  "*" "*"  " " "*" "*"  "*" </code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A matrix: 8 × 16 of type dbl</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">(Intercept)</th>
+<th data-quarto-table-cell-role="th" scope="col">cyl</th>
+<th data-quarto-table-cell-role="th" scope="col">disp</th>
+<th data-quarto-table-cell-role="th" scope="col">hp</th>
+<th data-quarto-table-cell-role="th" scope="col">drat</th>
+<th data-quarto-table-cell-role="th" scope="col">wt</th>
+<th data-quarto-table-cell-role="th" scope="col">qsec</th>
+<th data-quarto-table-cell-role="th" scope="col">vs</th>
+<th data-quarto-table-cell-role="th" scope="col">am</th>
+<th data-quarto-table-cell-role="th" scope="col">gear</th>
+<th data-quarto-table-cell-role="th" scope="col">carb</th>
+<th data-quarto-table-cell-role="th" scope="col">rss</th>
+<th data-quarto-table-cell-role="th" scope="col">rsq</th>
+<th data-quarto-table-cell-role="th" scope="col">adjr2</th>
+<th data-quarto-table-cell-role="th" scope="col">cp</th>
+<th data-quarto-table-cell-role="th" scope="col">bic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>278.322</td>
+<td>0.753</td>
+<td>0.745</td>
+<td>11.627</td>
+<td>-37.795</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">2</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>195.464</td>
+<td>0.826</td>
+<td>0.814</td>
+<td>1.830</td>
+<td>-45.638</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">3</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>169.286</td>
+<td>0.850</td>
+<td>0.834</td>
+<td>0.103</td>
+<td>-46.773</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">4</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>160.066</td>
+<td>0.858</td>
+<td>0.837</td>
+<td>0.790</td>
+<td>-45.099</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">5</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>153.438</td>
+<td>0.864</td>
+<td>0.838</td>
+<td>1.846</td>
+<td>-42.987</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">6</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>150.093</td>
+<td>0.867</td>
+<td>0.835</td>
+<td>3.370</td>
+<td>-40.227</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">7</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>148.528</td>
+<td>0.868</td>
+<td>0.830</td>
+<td>5.147</td>
+<td>-37.096</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">8</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>147.843</td>
+<td>0.869</td>
+<td>0.823</td>
+<td>7.050</td>
+<td>-33.779</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="3d056af1-36be-491a-ba7c-49c12cd2bc4b" class="cell" data-execution_count="64">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>fit<span class="ot">&lt;-</span><span class="fu">regsubsets</span>(mpg<span class="sc">~</span>., <span class="at">data=</span>mtcars, <span class="at">nbest=</span><span class="dv">1</span>,</span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="at">method=</span><span class="st">'forward'</span>,</span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">summary</span>(fit),</span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>     <span class="fu">round</span>(<span class="fu">cbind</span>(which,rss,rsq,adjr2,cp,bic),<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Subset selection object
+Call: regsubsets.formula(mpg ~ ., data = mtcars, nbest = 1, method = "forward", 
+    )
+10 Variables  (and intercept)
+     Forced in Forced out
+cyl      FALSE      FALSE
+disp     FALSE      FALSE
+hp       FALSE      FALSE
+drat     FALSE      FALSE
+wt       FALSE      FALSE
+qsec     FALSE      FALSE
+vs       FALSE      FALSE
+am       FALSE      FALSE
+gear     FALSE      FALSE
+carb     FALSE      FALSE
+1 subsets of each size up to 8
+Selection Algorithm: forward
+         cyl disp hp  drat wt  qsec vs  am  gear carb
+1  ( 1 ) " " " "  " " " "  "*" " "  " " " " " "  " " 
+2  ( 1 ) "*" " "  " " " "  "*" " "  " " " " " "  " " 
+3  ( 1 ) "*" " "  "*" " "  "*" " "  " " " " " "  " " 
+4  ( 1 ) "*" " "  "*" " "  "*" " "  " " "*" " "  " " 
+5  ( 1 ) "*" " "  "*" " "  "*" "*"  " " "*" " "  " " 
+6  ( 1 ) "*" "*"  "*" " "  "*" "*"  " " "*" " "  " " 
+7  ( 1 ) "*" "*"  "*" "*"  "*" "*"  " " "*" " "  " " 
+8  ( 1 ) "*" "*"  "*" "*"  "*" "*"  " " "*" "*"  " " </code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A matrix: 8 × 16 of type dbl</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" scope="col">(Intercept)</th>
+<th data-quarto-table-cell-role="th" scope="col">cyl</th>
+<th data-quarto-table-cell-role="th" scope="col">disp</th>
+<th data-quarto-table-cell-role="th" scope="col">hp</th>
+<th data-quarto-table-cell-role="th" scope="col">drat</th>
+<th data-quarto-table-cell-role="th" scope="col">wt</th>
+<th data-quarto-table-cell-role="th" scope="col">qsec</th>
+<th data-quarto-table-cell-role="th" scope="col">vs</th>
+<th data-quarto-table-cell-role="th" scope="col">am</th>
+<th data-quarto-table-cell-role="th" scope="col">gear</th>
+<th data-quarto-table-cell-role="th" scope="col">carb</th>
+<th data-quarto-table-cell-role="th" scope="col">rss</th>
+<th data-quarto-table-cell-role="th" scope="col">rsq</th>
+<th data-quarto-table-cell-role="th" scope="col">adjr2</th>
+<th data-quarto-table-cell-role="th" scope="col">cp</th>
+<th data-quarto-table-cell-role="th" scope="col">bic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>278.322</td>
+<td>0.753</td>
+<td>0.745</td>
+<td>11.627</td>
+<td>-37.795</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">2</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>191.172</td>
+<td>0.830</td>
+<td>0.819</td>
+<td>1.219</td>
+<td>-46.348</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">3</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>176.621</td>
+<td>0.843</td>
+<td>0.826</td>
+<td>1.147</td>
+<td>-45.416</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">4</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>169.998</td>
+<td>0.849</td>
+<td>0.827</td>
+<td>2.204</td>
+<td>-43.173</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">5</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>159.817</td>
+<td>0.858</td>
+<td>0.831</td>
+<td>2.755</td>
+<td>-41.684</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">6</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>150.991</td>
+<td>0.866</td>
+<td>0.834</td>
+<td>3.498</td>
+<td>-40.036</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" scope="row">7</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>149.090</td>
+<td>0.868</td>
+<td>0.829</td>
+<td>5.227</td>
+<td>-36.976</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th" scope="row">8</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>148.114</td>
+<td>0.868</td>
+<td>0.823</td>
+<td>7.088</td>
+<td>-33.720</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        for (let i = 0; i < 2; i++) {
+          container.appendChild(note.children[i].cloneNode(true));
+        }
+        return container.innerHTML
+      } else {
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
