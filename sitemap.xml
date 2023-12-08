@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://boram-coco.github.io/AS/index.html</loc>
-    <lastmod>2023-12-07T10:57:13.234Z</lastmod>
+    <lastmod>2023-12-08T04:41:20.689Z</lastmod>
   </url>
   <url>
     <loc>https://boram-coco.github.io/AS/posts/AS2.html</loc>
@@ -58,7 +58,7 @@
   </url>
   <url>
     <loc>https://boram-coco.github.io/AS/posts/01. Simple Linear Regression.html</loc>
-    <lastmod>2023-10-05T09:57:23.000Z</lastmod>
+    <lastmod>2023-12-08T03:49:10.285Z</lastmod>
   </url>
   <url>
     <loc>https://boram-coco.github.io/AS/posts/08. 다항회귀실습.html</loc>
@@ -90,6 +90,6 @@
   </url>
   <url>
     <loc>https://boram-coco.github.io/AS/about.html</loc>
-    <lastmod>2023-12-07T10:01:36.255Z</lastmod>
+    <lastmod>2023-12-08T04:22:48.939Z</lastmod>
   </url>
 </urlset>
